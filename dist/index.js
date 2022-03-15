@@ -8487,10 +8487,10 @@ const main = async () => {
     }
 
     // Check if the checkbox is there
-    if (core.info.body.includes('[ ]')) {
+    if (body.includes('[ ]')) {
       //TODO: fail, they must check the checkbox
       core.info('\u001b[35mThe checkbox is not checked')
-    } else if (core.info.body.includes('[x]')) {
+    } else if (body.includes('[x]')) {
       //TODO: Nice, it is checked.
       // TODO: Ensure that we have numerical numbers for all the questions.
       //TODO: If that is correct, send the numbers to the database
