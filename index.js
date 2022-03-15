@@ -10,30 +10,26 @@ const main = async () => {
     const pr_number = core.getInput('pr_number', { required: true })
     const token = core.getInput('token', { required: true })
 
-    /*
-    // https://octokit.github.io/rest.js/v18
-    const octokit = new github.getOctokit(token)
-
-    // Create the body of the comment
-    let bodyString = `Please answer the following ${questions.length} questions about this PR:\n`
-    questions.forEach(
-      (element, index) => (bodyString += `\n${index + 1}. ${element} ___`)
-    )
-    bodyString += `\n\n\n- [ ] I have answered the questions above`
-
-    const result = await octokit.rest.issues.createComment({
-      owner,
-      repo,
-      issue_number: pr_number,
-      body: bodyString,
-    })
-
-    core.setOutput('comment_id', result.data.id)
-    */
-
     const body = github.context.payload.pull_request?.body
-    core.info('This is the body of the pull request')
-    core.info(body)
+
+    if (!body) {
+      //TODO: End successfully, as there are no body
+    }
+
+    // Check if the checkbox is there
+    if (core.info.body.includes('[ ]')) {
+      //TODO: fail, they must check the checkbox
+      core.info('\u001b[35mThe checkbox is not checked')
+    } else if (core.info.body.includes('[x]')) {
+      //TODO: Nice, it is checked.
+      // TODO: Ensure that we have numerical numbers for all the questions.
+      //TODO: If that is correct, send the numbers to the database
+      core.info('\u001b[35mThe checkbox is checked')
+    } else {
+      // There is no checkbox at all.
+      //TODO: Insert the questions again?
+      core.info('\u001b[35mThere is no checkbox')
+    }
   } catch (error) {
     core.setFailed(error.message)
   }

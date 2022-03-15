@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-      - name: Ask questions
+      - name: Check questions
         id: check_questions
         uses: ./
         with:
