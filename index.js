@@ -1,5 +1,6 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
+const { composePaginateRest } = require('@octokit/plugin-paginate-rest')
 
 const main = async () => {
   try {
@@ -9,6 +10,7 @@ const main = async () => {
     const pr_number = core.getInput('pr_number', { required: true })
     const token = core.getInput('token', { required: true })
 
+    /*
     // https://octokit.github.io/rest.js/v18
     const octokit = new github.getOctokit(token)
 
@@ -27,6 +29,11 @@ const main = async () => {
     })
 
     core.setOutput('comment_id', result.data.id)
+    */
+
+    const body = github.context.payload.pull_request?.body
+    core.info('This is the body of the pull request')
+    core.info(body)
   } catch (error) {
     core.setFailed(error.message)
   }
