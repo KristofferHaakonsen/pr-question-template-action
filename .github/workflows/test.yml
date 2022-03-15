@@ -1,0 +1,22 @@
+name: Add questions to PRs
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  pr-questions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Ask questions
+        id: ask_question
+        uses: ./
+        with:
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          pr_number: ${{ github.event.number }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Print comment id
+        run: echo "Comment created with id ${{steps.ask_question.outputs.comment_id}}"

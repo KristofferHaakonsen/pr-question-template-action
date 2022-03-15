@@ -1,0 +1,26 @@
+{
+  "name": "pr-question-template-action",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.33.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KristofferHaakonsen/pr-question-template-action.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KristofferHaakonsen/pr-question-template-action/issues"
+  },
+  "homepage": "https://github.com/KristofferHaakonsen/pr-question-template-action#readme"
+}
