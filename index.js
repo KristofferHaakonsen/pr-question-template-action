@@ -9,7 +9,7 @@ const extractData = (body) => {
   // Only keep the questions
   const regex = /^\d\..*/
   let filtered = lines.filter((line) => line.match(regex))
-  core.debug('The lquesiton lines: ' + filtered)
+  core.debug('The question lines: ' + filtered)
 
   // Remove the numbers
   let number_removed = filtered.map((line) => line.substring(3))
@@ -59,7 +59,10 @@ const main = async () => {
     core.debug('The question_body: ' + question_body)
 
     if (!question_body) {
-      core.setFailed('There is no question in the body for this PR')
+      core.setFailed(
+        'There is no question in the body for this PR or the structure of the question section is broken'
+      )
+      return
     }
 
     if (
@@ -67,7 +70,6 @@ const main = async () => {
         `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
       )
     ) {
-      //TODO: Improve feedback
       core.debug('The checkbox is NOT checked')
       core.setFailed(
         'You need to answer the questions, and then check the checkbox'
