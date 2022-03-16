@@ -5,8 +5,8 @@ const { composePaginateRest } = require('@octokit/plugin-paginate-rest')
 const extractData = (body) => {
   // extract the questions part
   let data = body.slice(
-    message.indexOf('## Questions:'),
-    message.indexOf('<!--End of questions-->')
+    body.indexOf('## Questions:'),
+    body.indexOf('<!--End of questions-->')
   )
 
   // extract each line that begins with a letter
