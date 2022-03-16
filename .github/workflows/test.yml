@@ -21,4 +21,6 @@ jobs:
       - name: Test using bash
         run: |
           echo "test"
-          echo "${{ github.repository }}"
+          echo "${{ github.event.pull_request }}"
+          echo "${{ github.event.pull_request.body }}"
+          echo "${{ github.context}}"
