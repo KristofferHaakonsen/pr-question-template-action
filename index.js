@@ -2,6 +2,43 @@ const core = require('@actions/core')
 const github = require('@actions/github')
 const { composePaginateRest } = require('@octokit/plugin-paginate-rest')
 
+const extractData = (body) => {
+  // extract the questions part
+  let data = body.slice(
+    message.indexOf('## Questions:'),
+    message.indexOf('<!--End of questions-->')
+  )
+
+  // extract each line that begins with a letter
+  let lines = data.split('\n')
+
+  const regex = /^\d\..*\.$/
+
+  // only keep the questions
+  let filtered = lines.filter((line) => line.match(regex))
+
+  // Remove the numbers
+  let number_removed = filtered.map((line) => line.substring(3))
+
+  // Check that each answer contains a number and extract answers
+
+  let each_contains_number = true
+  let answers = Array()
+  let number_regex = /\d{1,2}/
+
+  let line_answer
+  number_removed.forEach((line) => {
+    line_answer = line.match(number_regex)
+    if (line_answer) {
+      answers.push(line_answer[0])
+    } else {
+      each_contains_number = false
+    }
+  })
+
+  return { status: each_contains_number, answers: answers }
+}
+
 const main = async () => {
   try {
     // Get input variables
@@ -52,40 +89,3 @@ const main = async () => {
 
 // Call the main function to run the action
 main()
-
-const extractData = (body) => {
-  // extract the questions part
-  let data = body.slice(
-    message.indexOf('## Questions:'),
-    message.indexOf('<!--End of questions-->')
-  )
-
-  // extract each line that begins with a letter
-  let lines = data.split('\n')
-
-  const regex = /^\d\..*\.$/
-
-  // only keep the questions
-  let filtered = lines.filter((line) => line.match(regex))
-
-  // Remove the numbers
-  let number_removed = filtered.map((line) => line.substring(3))
-
-  // Check that each answer contains a number and extract answers
-
-  let each_contains_number = true
-  let answers = Array()
-  let number_regex = /\d{1,2}/
-
-  let line_answer
-  number_removed.forEach((line) => {
-    line_answer = line.match(number_regex)
-    if (line_answer) {
-      answers.push(line_answer[0])
-    } else {
-      each_contains_number = false
-    }
-  })
-
-  return { status: each_contains_number, answers: answers }
-}
