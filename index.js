@@ -70,7 +70,12 @@ const main = async () => {
     ) {
       core.info('\u001b[35mThe checkbox is checked')
       const response = extractData(body)
-      core.setOutput('answers', response.question_answers)
+      if (response.status) {
+        core.setOutput('answers', response.question_answers)
+      }
+      {
+        core.setFailed('You need to answer all the questions')
+      }
     } else {
       core.setFailed(
         'You have removed the checkbox that is related to the questions'
