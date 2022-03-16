@@ -3,10 +3,15 @@ const github = require('@actions/github')
 
 const extractData = (body) => {
   // extract the questions part
+  core.info('body')
+  core.info(body)
+
   let data = body.slice(
     body.indexOf('## Questions:'),
     body.indexOf('<!--End of questions-->')
   )
+  core.info('data')
+  core.info(data)
 
   // extract each line that begins with a letter
   let lines = data.split('\n')
