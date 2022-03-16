@@ -8485,9 +8485,17 @@ const extractData = (body) => {
 
   // extract each line that begins with a letter
   let lines = data.split('\n')
-  const regex = /^\d\..*\.$/
   core.info('lines')
   core.info(lines)
+  core.info('This is a test')
+  core.info('Line 1')
+  core.info(lines[0])
+  core.info('Line 2')
+  core.info(lines[1])
+  core.info('Line 3')
+  core.info(lines[2])
+
+  const regex = /^\d\..*\.$/
 
   // only keep the questions
   let filtered = lines.filter((line) => line.match(regex))
