@@ -3,34 +3,22 @@ const github = require('@actions/github')
 
 const extractData = (body) => {
   // extract the questions part
-  core.info('body')
-  core.info(body)
-
   let data = body.slice(
     body.indexOf('## Questions:'),
     body.indexOf('<!--End of questions-->')
   )
-  core.info('data')
-  core.info(data)
 
   // extract each line that begins with a letter
   let lines = data.split('\n')
-  core.info('lines')
-  core.info(lines)
 
   // only keep the questions
   const regex = /^\d\..*/
   let filtered = lines.filter((line) => line.match(regex))
 
-  core.info('Filtered')
-  core.info(filtered)
-
   // Remove the numbers
   let number_removed = filtered.map((line) => line.substring(3))
-  core.info('number_removed')
-  core.info(number_removed)
-  // Check that each answer contains a number and extract answers
 
+  // Check that each answer contains a number and extract answers
   let each_contains_number = true
   let answers = Array()
   let number_regex = /\d{1,2}/
@@ -86,7 +74,6 @@ const main = async () => {
       const response = extractData(body)
       core.info('\u001b[35mAll questions answered: ' + response.status)
       core.info('\u001b[35mThe answers: ' + response.question_answers)
-      response.question_answers.forEach((item) => core.info(item))
     } else {
       // There is no checkbox at all.
       //TODO: Insert the questions again?
