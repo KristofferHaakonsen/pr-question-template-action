@@ -17,18 +17,15 @@ const extractData = (body) => {
   let lines = data.split('\n')
   core.info('lines')
   core.info(lines)
-  core.info('This is a test')
-  core.info('Line 1')
-  core.info(lines[0])
-  core.info('Line 2')
-  core.info(lines[1])
-  core.info('Line 3')
-  core.info(lines[2])
+  core.info('Is array?')
+  core.info(Array.isArray(lines))
 
   const regex = /^\d\..*\.$/
 
   // only keep the questions
-  let filtered = lines.filter((line) => line.match(regex))
+  let filtered = lines.filter((line) => {
+    line.match(regex)
+  })
   core.info('Filtered')
   core.info(filtered)
 
