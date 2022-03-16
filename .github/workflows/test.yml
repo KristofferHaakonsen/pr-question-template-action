@@ -20,7 +20,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Test using bash
         run: |
-          echo "test"
-          echo "${{ github.event.pull_request }}"
           echo "${{ github.event.pull_request.body }}"
-          echo "${{ github.context}}"
