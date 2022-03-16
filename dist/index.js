@@ -8487,19 +8487,13 @@ const extractData = (body) => {
   let lines = data.split('\n')
   core.info('lines')
   core.info(lines)
-  core.info('Is array?')
-  core.info(Array.isArray(lines))
 
   // only keep the questions
-  let filtered = lines.filter((line) => line.match(/^\d\..*\.$/))
+  const regex = /^\d\..*/
+  let filtered = lines.filter((line) => line.match(regex))
+
   core.info('Filtered')
   core.info(filtered)
-
-  lines.forEach((item) => {
-    core.info(item)
-    core.info('This item satisfies the regex?')
-    core.info(item.match(/^\d\..*$/))
-  })
 
   // Remove the numbers
   let number_removed = filtered.map((line) => line.substring(3))
