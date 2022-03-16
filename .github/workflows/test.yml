@@ -21,4 +21,6 @@ jobs:
       - name: Log out the results
         run: echo "Answers ${{steps.check_questions.outputs.answers}}"
       - name: Multiply answers
-        run: echo "Answer 1 ${{steps.check_questions.outputs.answers[0]}}"
+        env:
+          ANSWERS: ${{steps.check_questions.outputs.answers[0]}}
+        run: echo "Answer 1 $ANSWERS"
