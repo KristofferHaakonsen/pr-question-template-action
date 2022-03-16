@@ -8549,14 +8549,10 @@ const main = async () => {
     ) {
       core.debug('The checkbox is checked')
       const response = extractData(question_body)
-      core.debug(
-        '_______________ THE RESPONSE_STATUS ____________________' +
-          response.status
-      )
+
       if (response.status) {
         core.setOutput('answers', response.question_answers)
-      }
-      {
+      } else {
         core.setFailed('You need to answer all the questions')
       }
     } else {
