@@ -34,8 +34,11 @@ const extractData = (body) => {
       each_contains_number = false
     }
   })
-
-  return { status: each_contains_number, answer: answers }
+  core.info(
+    '\u001b[35mFrom inside the extractData. Here is the responses: ',
+    answers
+  )
+  return { status: each_contains_number, question_answers: answers }
 }
 
 const main = async () => {
@@ -73,9 +76,9 @@ const main = async () => {
       // TODO: Ensure that we have numerical numbers for all the questions.
       //TODO: If that is correct, send the numbers to the database
       core.info('\u001b[35mThe checkbox is checked')
-      const { status, answer } = extractData(body)
-      core.info('\u001b[35mAll questions answered: ', status)
-      core.info('\u001b[35mThe answers: ', answer)
+      const response = extractData(body)
+      core.info('\u001b[35mAll questions answered: ', response.status)
+      core.info('\u001b[35mThe answers: ', response.question_answers)
     } else {
       // There is no checkbox at all.
       //TODO: Insert the questions again?
