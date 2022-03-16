@@ -75,6 +75,7 @@ const main = async () => {
       const response = extractData(body)
       core.info('\u001b[35mAll questions answered: ' + response.status)
       core.info('\u001b[35mThe answers: ' + response.question_answers)
+      response.question_answers.forEach((item) => core.info(item))
     } else {
       // There is no checkbox at all.
       //TODO: Insert the questions again?
