@@ -72,8 +72,7 @@ const main = async () => {
       //TODO: If that is correct, send the numbers to the database
       core.info('\u001b[35mThe checkbox is checked')
       const response = extractData(body)
-      core.info('\u001b[35mAll questions answered: ' + response.status)
-      core.info('\u001b[35mThe answers: ' + response.question_answers)
+      core.setOutput('answers', response.question_answers)
     } else {
       // There is no checkbox at all.
       //TODO: Insert the questions again?

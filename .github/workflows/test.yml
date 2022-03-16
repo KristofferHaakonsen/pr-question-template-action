@@ -18,6 +18,5 @@ jobs:
           repo: ${{ github.event.repository.name }}
           pr_number: ${{ github.event.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Test using bash
-        run: |
-          echo "${{ github.event.pull_request.body }}"
+      - name: Log out the results
+        run: echo "Answers ${{steps.check_questions.outputs.answers}}"
