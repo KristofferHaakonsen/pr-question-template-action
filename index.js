@@ -28,6 +28,8 @@ const extractData = (body) => {
   core.info(filtered)
 
   core.info('Manuall checking')
+  core.info('This is the regex')
+  core.info(regex)
   lines.forEach((item) => {
     core.info(item)
     core.info('This item satisfies the regex?')
