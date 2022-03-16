@@ -8486,13 +8486,22 @@ const main = async () => {
       //TODO: End successfully, as there are no body
     }
 
-    // Check if the checkbox is there
-    if (body.includes('[ ]')) {
-      //TODO: fail, they must check the checkbox
+    // Check if the checkbox is there'
+    // TODO: Improve check, as there might be several checkboxes
+    if (
+      body.includes(
+        `- [ ] I have filled in the form above :heavy_exclamation_mark:`
+      )
+    ) {
+      //TODO: Improve feedback
       core.setFailed(
         'You need to answer the questions, and then check the checkbox'
       )
-    } else if (body.includes('[x]')) {
+    } else if (
+      body.includes(
+        `- [x] I have filled in the form above :heavy_exclamation_mark:`
+      )
+    ) {
       //TODO: Nice, it is checked.
       // TODO: Ensure that we have numerical numbers for all the questions.
       //TODO: If that is correct, send the numbers to the database
@@ -8509,6 +8518,8 @@ const main = async () => {
 
 // Call the main function to run the action
 main()
+
+const extractData = (body) => {}
 
 })();
 
