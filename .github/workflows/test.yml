@@ -22,5 +22,5 @@ jobs:
         run: echo "Answers ${{steps.check_questions.outputs.answers}}"
       - name: Multiply answers
         env:
-          ANSWERS: ${{steps.check_questions.outputs.answers[0]}}
+          ANSWERS: ${{steps.check_questions.outputs.answers}}
         run: echo "Answer 1 $ANSWERS"
