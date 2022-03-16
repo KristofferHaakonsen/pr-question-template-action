@@ -28,6 +28,9 @@ const extractData = (body) => {
   number_removed.forEach((line) => {
     line_answer = line.match(number_regex)
     if (line_answer) {
+      core.info('Answer found')
+      core.info(line_answer)
+      core.info(line_answer[0])
       answers.push(line_answer[0])
     } else {
       each_contains_number = false
