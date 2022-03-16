@@ -2,16 +2,10 @@ const core = require('@actions/core')
 const github = require('@actions/github')
 
 const extractData = (body) => {
-  // extract the questions part
-  let data = body.slice(
-    body.indexOf('## Questions:'),
-    body.indexOf('<!--End of questions-->')
-  )
-
-  // extract each line that begins with a letter
+  // Extract each line that begins with a letter
   let lines = data.split('\n')
 
-  // only keep the questions
+  // Only keep the questions
   const regex = /^\d\..*/
   let filtered = lines.filter((line) => line.match(regex))
 
@@ -52,24 +46,31 @@ const main = async () => {
       core.setFailed('There is no body for this PR')
     }
 
-    // Check if the checkbox is there'
+    const question_body = body.slice(
+      body.indexOf('## Questions:'),
+      body.indexOf('<!--End of questions-->')
+    )
+    if (!question_body) {
+      core.setFailed('There is no question in the body for this PR')
+    }
+
     if (
-      body.includes(
+      question_body.includes(
         `- [ ] I have filled in the form above :heavy_exclamation_mark:`
       )
     ) {
       //TODO: Improve feedback
-      core.info('\u001b[35mThe checkbox is NOT checked')
+      core.debug('The checkbox is NOT checked')
       core.setFailed(
         'You need to answer the questions, and then check the checkbox'
       )
     } else if (
-      body.includes(
+      question_body.includes(
         `- [x] I have filled in the form above :heavy_exclamation_mark:`
       )
     ) {
-      core.info('\u001b[35mThe checkbox is checked')
-      const response = extractData(body)
+      core.debug('The checkbox is checked')
+      const response = extractData(question_body)
       if (response.status) {
         core.setOutput('answers', response.question_answers)
       }
@@ -77,6 +78,7 @@ const main = async () => {
         core.setFailed('You need to answer all the questions')
       }
     } else {
+      core.debug('There is not checkbox there')
       core.setFailed(
         'You have removed the checkbox that is related to the questions'
       )
