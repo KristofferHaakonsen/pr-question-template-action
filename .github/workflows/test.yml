@@ -20,3 +20,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Log out the results
         run: echo "Answers ${{steps.check_questions.outputs.answers}}"
+      - name: Multiply answers
+        run: echo "Answer 1 ${{steps.check_questions.outputs.answers[0]}}"
