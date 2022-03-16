@@ -8534,7 +8534,7 @@ const main = async () => {
 
     if (
       question_body.includes(
-        `- [ ] I have filled in the form above :heavy_exclamation_mark:`
+        `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
       )
     ) {
       //TODO: Improve feedback
@@ -8544,7 +8544,7 @@ const main = async () => {
       )
     } else if (
       question_body.includes(
-        `- [x] I have filled in the form above :heavy_exclamation_mark:`
+        `- [x] I have filled in the questions above :heavy_exclamation_mark:`
       )
     ) {
       core.debug('The checkbox is checked')
