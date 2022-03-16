@@ -1,6 +1,5 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
-const { composePaginateRest } = require('@octokit/plugin-paginate-rest')
 
 const extractData = (body) => {
   // extract the questions part

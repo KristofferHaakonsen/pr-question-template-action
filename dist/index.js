@@ -8470,7 +8470,6 @@ var __webpack_exports__ = {};
 (() => {
 const core = __nccwpck_require__(2186)
 const github = __nccwpck_require__(5438)
-const { composePaginateRest } = __nccwpck_require__(4193)
 
 const extractData = (body) => {
   // extract the questions part
