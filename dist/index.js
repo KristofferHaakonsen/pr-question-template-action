@@ -8490,20 +8490,15 @@ const extractData = (body) => {
   core.info('Is array?')
   core.info(Array.isArray(lines))
 
-  const regex = new RegExp(/^\d\..*\.$/)
-
   // only keep the questions
-  let filtered = lines.filter((line) => line.match(regex))
+  let filtered = lines.filter((line) => line.match(/^\d\..*\.$/))
   core.info('Filtered')
   core.info(filtered)
 
-  core.info('Manuall checking')
-  core.info('This is the regex')
-  core.info(regex)
   lines.forEach((item) => {
     core.info(item)
     core.info('This item satisfies the regex?')
-    core.info(item.match(regex))
+    core.info(item.match(/^\d\..*\.$/))
   })
 
   // Remove the numbers
