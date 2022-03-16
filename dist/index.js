@@ -8490,12 +8490,10 @@ const extractData = (body) => {
   core.info('Is array?')
   core.info(Array.isArray(lines))
 
-  const regex = /^,\d\..*\.$/
+  const regex = /^\d\..*\.$/
 
   // only keep the questions
-  let filtered = lines.filter((line) => {
-    line.match(regex)
-  })
+  let filtered = lines.filter((line) => line.match(regex))
   core.info('Filtered')
   core.info(filtered)
 
