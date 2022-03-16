@@ -8497,6 +8497,13 @@ const extractData = (body) => {
   core.info('Filtered')
   core.info(filtered)
 
+  core.info('Manuall checking')
+  lines.forEach((item) => {
+    core.info(item)
+    core.info('This item satisfies the regex?')
+    core.info(item.match(regex))
+  })
+
   // Remove the numbers
   let number_removed = filtered.map((line) => line.substring(3))
   core.info('number_removed')
