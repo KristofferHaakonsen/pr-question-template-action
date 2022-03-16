@@ -28,7 +28,7 @@ const extractData = (body) => {
   lines.forEach((item) => {
     core.info(item)
     core.info('This item satisfies the regex?')
-    core.info(item.match(/^\d\.*/))
+    core.info(item.match(/^\d\..*/))
   })
 
   // Remove the numbers
