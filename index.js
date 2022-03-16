@@ -10,21 +10,14 @@ const extractData = (body) => {
 
   // extract each line that begins with a letter
   let lines = data.split('\n')
-  core.info('\u001b[35mFrom inside the extractData. Here is the lines: ', lines)
   const regex = /^\d\..*\.$/
 
   // only keep the questions
   let filtered = lines.filter((line) => line.match(regex))
-  core.info(
-    '\u001b[35mFrom inside the extractData. Here is the questions: ',
-    filtered
-  )
+
   // Remove the numbers
   let number_removed = filtered.map((line) => line.substring(3))
-  core.info(
-    '\u001b[35mFrom inside the extractData. Here is the removed numbers: ',
-    filtered
-  )
+
   // Check that each answer contains a number and extract answers
 
   let each_contains_number = true
@@ -35,20 +28,12 @@ const extractData = (body) => {
   number_removed.forEach((line) => {
     line_answer = line.match(number_regex)
     if (line_answer) {
-      core.info(
-        '\u001b[35mFrom inside the extractData. answer: ',
-        line_answer[0],
-        filtered
-      )
       answers.push(line_answer[0])
     } else {
       each_contains_number = false
     }
   })
-  core.info(
-    '\u001b[35mFrom inside the extractData. Here is the responses: ',
-    answers
-  )
+
   return { status: each_contains_number, question_answers: answers }
 }
 
@@ -88,9 +73,8 @@ const main = async () => {
       //TODO: If that is correct, send the numbers to the database
       core.info('\u001b[35mThe checkbox is checked')
       const response = extractData(body)
-      core.info('\u001b[35mAll questions answered: ', response.status)
-      core.info(response.status)
-      core.info('\u001b[35mThe answers: ', response.question_answers)
+      core.info('\u001b[35mAll questions answered: ' + response.status)
+      core.info('\u001b[35mThe answers: ' + response.question_answers)
     } else {
       // There is no checkbox at all.
       //TODO: Insert the questions again?
