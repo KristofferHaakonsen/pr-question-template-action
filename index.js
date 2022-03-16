@@ -37,6 +37,8 @@ const extractData = (body) => {
 }
 
 const main = async () => {
+  //TODO: Check that the correct questions are there, if not, insert them
+
   try {
     // Get input variables
     const owner = core.getInput('owner', { required: true })
@@ -47,11 +49,10 @@ const main = async () => {
     const body = github.context.payload.pull_request?.body
 
     if (!body) {
-      //TODO: End successfully, as there are no body
+      core.setFailed('There is no body for this PR')
     }
 
     // Check if the checkbox is there'
-    // TODO: Improve check, as there might be several checkboxes
     if (
       body.includes(
         `- [ ] I have filled in the form above :heavy_exclamation_mark:`
@@ -59,24 +60,21 @@ const main = async () => {
     ) {
       //TODO: Improve feedback
       core.info('\u001b[35mThe checkbox is NOT checked')
-      //core.setFailed(
-      //   'You need to answer the questions, and then check the checkbox'
-      //)
+      core.setFailed(
+        'You need to answer the questions, and then check the checkbox'
+      )
     } else if (
       body.includes(
         `- [x] I have filled in the form above :heavy_exclamation_mark:`
       )
     ) {
-      //TODO: Nice, it is checked.
-      // TODO: Ensure that we have numerical numbers for all the questions.
-      //TODO: If that is correct, send the numbers to the database
       core.info('\u001b[35mThe checkbox is checked')
       const response = extractData(body)
       core.setOutput('answers', response.question_answers)
     } else {
-      // There is no checkbox at all.
-      //TODO: Insert the questions again?
-      core.info('\u001b[35mThere is no checkbox')
+      core.setFailed(
+        'You have removed the checkbox that is related to the questions'
+      )
     }
   } catch (error) {
     core.setFailed(error.message)
