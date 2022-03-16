@@ -37,6 +37,9 @@ const main = async () => {
       // TODO: Ensure that we have numerical numbers for all the questions.
       //TODO: If that is correct, send the numbers to the database
       core.info('\u001b[35mThe checkbox is checked')
+      const { status, answers } = extractData(body)
+      core.info('\u001b[35mTAll questions answered: ', status)
+      core.info('\u001b[35mThe answers: ', answers)
     } else {
       // There is no checkbox at all.
       //TODO: Insert the questions again?
@@ -50,4 +53,39 @@ const main = async () => {
 // Call the main function to run the action
 main()
 
-const extractData = (body) => {}
+const extractData = (body) => {
+  // extract the questions part
+  let data = body.slice(
+    message.indexOf('## Questions:'),
+    message.indexOf('<!--End of questions-->')
+  )
+
+  // extract each line that begins with a letter
+  let lines = data.split('\n')
+
+  const regex = /^\d\..*\.$/
+
+  // only keep the questions
+  let filtered = lines.filter((line) => line.match(regex))
+
+  // Remove the numbers
+  let number_removed = filtered.map((line) => line.substring(3))
+
+  // Check that each answer contains a number and extract answers
+
+  let each_contains_number = true
+  let answers = Array()
+  let number_regex = /\d{1,2}/
+
+  let line_answer
+  number_removed.forEach((line) => {
+    line_answer = line.match(number_regex)
+    if (line_answer) {
+      answers.push(line_answer[0])
+    } else {
+      each_contains_number = false
+    }
+  })
+
+  return { status: each_contains_number, answers: answers }
+}
