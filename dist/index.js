@@ -8494,9 +8494,10 @@ const main = async () => {
       )
     ) {
       //TODO: Improve feedback
-      core.setFailed(
-        'You need to answer the questions, and then check the checkbox'
-      )
+      core.info('\u001b[35mThe checkbox is NOT checked')
+      //core.setFailed(
+      //   'You need to answer the questions, and then check the checkbox'
+      //)
     } else if (
       body.includes(
         `- [x] I have filled in the form above :heavy_exclamation_mark:`
