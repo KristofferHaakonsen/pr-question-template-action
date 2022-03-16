@@ -8481,13 +8481,18 @@ const extractData = (body) => {
   // extract each line that begins with a letter
   let lines = data.split('\n')
   const regex = /^\d\..*\.$/
+  core.info('lines')
+  core.info(lines)
 
   // only keep the questions
   let filtered = lines.filter((line) => line.match(regex))
+  core.info('Filtered')
+  core.info(filtered)
 
   // Remove the numbers
   let number_removed = filtered.map((line) => line.substring(3))
-
+  core.info('number_removed')
+  core.info(number_removed)
   // Check that each answer contains a number and extract answers
 
   let each_contains_number = true
@@ -8498,9 +8503,6 @@ const extractData = (body) => {
   number_removed.forEach((line) => {
     line_answer = line.match(number_regex)
     if (line_answer) {
-      core.info('Answer found')
-      core.info(line_answer)
-      core.info(line_answer[0])
       answers.push(line_answer[0])
     } else {
       each_contains_number = false
