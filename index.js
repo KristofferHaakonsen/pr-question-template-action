@@ -4,13 +4,16 @@ const github = require('@actions/github')
 const extractData = (body) => {
   // Extract each line that begins with a letter
   let lines = data.split('\n')
+  core.debug('The lines of the question body', lines)
 
   // Only keep the questions
   const regex = /^\d\..*/
   let filtered = lines.filter((line) => line.match(regex))
+  core.debug('The lquesiton lines', filtered)
 
   // Remove the numbers
   let number_removed = filtered.map((line) => line.substring(3))
+  core.debug('The unnumbered questions', number_removed)
 
   // Check that each answer contains a number and extract answers
   let each_contains_number = true
@@ -26,6 +29,8 @@ const extractData = (body) => {
       each_contains_number = false
     }
   })
+  core.debug('The answered questions', answers)
+  core.debug('The status', each_contains_number)
 
   return { status: each_contains_number, question_answers: answers }
 }
@@ -50,6 +55,8 @@ const main = async () => {
       body.indexOf('## Questions:'),
       body.indexOf('<!--End of questions-->')
     )
+    core.debug('The question_body', question_body)
+
     if (!question_body) {
       core.setFailed('There is no question in the body for this PR')
     }
