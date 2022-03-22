@@ -32,3 +32,6 @@ jobs:
           mysql -u ${{ secrets.DB_USER}} -p${{ secrets.DB_PASSWORD }} \
               -h ${{ secrets.DB_ENDPOINT }} -P${{ secrets.DB_PORT }} \
               -D ${{ secrets.DB_NAME}}
+          SHOW DATABASES;
+          HELP
+          EXIT
