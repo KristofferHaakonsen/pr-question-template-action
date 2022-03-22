@@ -23,16 +23,10 @@ jobs:
 
   database-test:
     runs-on: ubuntu-latest
-    env:
-      DB_DATABASE: test_db
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_IP: '127.0.0.1'
-      DB_PORT: '3306'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-      - name: Set up MySQL
+      - name: Check MYSQL version
+        run: mysql --version
+      - name: Connect to MYSQL
         run: |
           sudo /etc/init.d/mysql start
           mysql -u ${{ secrets.DB_USER}} -p${{ secrets.DB_PASSWORD }} \
