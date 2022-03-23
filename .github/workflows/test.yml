@@ -30,7 +30,11 @@ jobs:
         run: |
           sudo /etc/init.d/mysql start
           mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "SHOW DATABASES"
-      - name: Query database
+      - name: Select *
         run: |
           sudo /etc/init.d/mysql start
           mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "SHOW DATABASES; USE MasterDB; SELECT * FROM master_questions"
+      - name: Insert into database
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "SHOW DATABASES; USE MasterDB; INSERT INTO master_questions (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7) VALUES ('hash', 2, 2, 2, 2, 2, 2, 2) ON DUPLICATE KEY UPDATE QUESTION_1=2, QUESTION_2=2, QUESTION_3=2, QUESTION_4=2, QUESTION_5=2, QUESTION_6=2, QUESTION_7=2;"
