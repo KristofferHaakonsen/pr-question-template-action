@@ -8568,9 +8568,11 @@ const main = async () => {
         //core.setOutput('answers', JSON.stringify(response.question_answers))
         
         const string_base = 'answer_'
-        let question_string = ''
+        let question_string
+        let question_number
         response.question_answers.forEach((index, item) => {
-          question_string=string_base+(index+1)
+          question_number=index+1
+          question_string=string_base+question_number
           core.setOutput(question_string, item)
         })
       
