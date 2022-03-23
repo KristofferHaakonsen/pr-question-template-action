@@ -95,7 +95,11 @@ const main = async () => {
       const response = extractData(question_body)
 
       if (response.status) {
-        core.setOutput('answers', response.question_answers)
+        core.info('\u001b[43mThe JSON data')
+        core.info(JSON.stringify(response.question_answers))
+        
+        core.setOutput('answers', JSON.stringify(response.question_answers))
+        //core.setOutput('answers', response.question_answers)
       } else {
         core.setFailed('You need to answer all the questions')
       }
