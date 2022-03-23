@@ -95,7 +95,7 @@ const main = async () => {
       const response = extractData(question_body)
 
       if (response.status) {
-        core.info('\u001b[43mThe JSON data')
+        core.info('.----------------------------The JSON data----------------------')
         core.info(JSON.stringify(response.question_answers))
         
         core.setOutput('answers', JSON.stringify(response.question_answers))
