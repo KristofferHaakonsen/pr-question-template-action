@@ -21,9 +21,7 @@ jobs:
           pr_number: ${{ github.event.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Log out the results
-        run: |
-        echo "Answer1 ${{steps.check_questions.outputs.answer_1}}"
-        echo "All ${{steps.check_questions.outputs}}"
+        run: echo "All ${{steps.check_questions.outputs}}"
 
   database-test:
     runs-on: ubuntu-latest
