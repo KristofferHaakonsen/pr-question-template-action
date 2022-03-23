@@ -22,6 +22,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Log out the results
         run: echo "Answers ${{steps.check_questions.outputs.answers}}"
+      - name: Log out the results
+      run: echo "Answers ${{steps.check_questions.outputs.answers}}[0]"
 
   database-test:
     runs-on: ubuntu-latest
