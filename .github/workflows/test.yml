@@ -29,4 +29,4 @@ jobs:
       - name: Connect to MYSQL
         run: |
           sudo /etc/init.d/mysql start
-          mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "SHOW DATABASES; USE MasterDB; SELECT * FROM master_questions; EXIT;"
+          mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "SHOW DATABASES; USE MasterDB; SELECT * FROM master_questions"
