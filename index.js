@@ -95,8 +95,8 @@ const main = async () => {
       const response = extractData(question_body)
 
       if (response.status) {
-        core.info('.----------------------------The JSON data----------------------')
-        core.info(JSON.stringify(response.question_answers))
+        core.debug('.----------------------------The JSON data----------------------')
+        core.debug(JSON.stringify(response.question_answers))
         
         core.setOutput('answers', JSON.stringify(response.question_answers))
         //core.setOutput('answers', response.question_answers)

@@ -51,3 +51,5 @@ jobs:
         run: echo "${{needs.pr-questions.outputs.output-answers}}"
       - name: Log as json
         run: echo "${{ toJSON(needs.pr-questions.outputs.output-answers)}}"
+      - name: Log as json first object
+        run: echo "${{ toJSON(needs.pr-questions.outputs.output-answers[0])}}"
