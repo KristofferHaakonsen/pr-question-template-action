@@ -23,7 +23,7 @@ jobs:
       - name: Log out the results
         run: echo "All ${{steps.check_questions.outputs}}"
       - name: Log out the results as json
-        run: echo "All ${{ json(steps.check_questions.outputs)}}"
+        run: echo "All ${{ toJson(steps.check_questions.outputs)}}"
       - name: Log out the first two
         run: |
           echo "First ${{steps.check_questions.outputs.answers_1}}"
