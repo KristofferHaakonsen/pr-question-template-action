@@ -26,7 +26,11 @@ jobs:
     steps:
       - name: Check MYSQL version
         run: mysql --version
-      - name: Connect to MYSQL
+      - name: Show databases
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "SHOW DATABASES"
+      - name: Query database
         run: |
           sudo /etc/init.d/mysql start
           mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "SHOW DATABASES; USE MasterDB; SELECT * FROM master_questions"
