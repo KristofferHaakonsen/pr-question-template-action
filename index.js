@@ -39,6 +39,12 @@ const main = async () => {
   //TODO: Check that the correct questions are there, if not, insert them
 
   try {
+    // Get input variables
+    const owner = core.getInput('owner', { required: true })
+    const repo = core.getInput('repo', { required: true })
+    const pr_number = core.getInput('pr_number', { required: true })
+    const token = core.getInput('token', { required: true })
+
     const body = github.context.payload.pull_request?.body
     core.debug('The PR body: ' + body)
 

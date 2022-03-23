@@ -15,6 +15,11 @@ jobs:
       - name: Check questions
         id: check_questions
         uses: ./
+        with:
+          owner: ${{ github.repository_owner }}
+          repo: ${{ github.event.repository.name }}
+          pr_number: ${{ github.event.number }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Log out the results
         run: echo "Answers ${{steps.check_questions.outputs.answers}}"
 
