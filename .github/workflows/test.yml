@@ -29,8 +29,7 @@ jobs:
       - name: Connect to MYSQL
         run: |
           sudo /etc/init.d/mysql start
-          mysql -u ${{ secrets.DB_USER}} -p${{ secrets.DB_PASSWORD }} \
-              -h ${{ secrets.DB_ENDPOINT }} -P${{ secrets.DB_PORT }} \
-              -D ${{ secrets.DB_NAME}}
+          mysql -u ${{ secrets.DB_USER}} --password${{ secrets.DB_PASSWORD }} \
+              -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} 
           SHOW DATABASES;
           EXIT
