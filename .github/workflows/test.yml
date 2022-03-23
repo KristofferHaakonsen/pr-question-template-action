@@ -31,7 +31,7 @@ jobs:
 
   database-test:
     runs-on: ubuntu-latest
-    needs: check_questions
+    needs: [check_questions]
     steps:
       - name: Check MYSQL version
         run: mysql --version
