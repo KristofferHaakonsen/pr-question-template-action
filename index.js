@@ -95,7 +95,15 @@ const main = async () => {
       const response = extractData(question_body)
 
       if (response.status) {        
-        core.setOutput('answers', response.question_answers)
+        //core.setOutput('answers', response.question_answers)'
+
+        const string_base = 'QUESTION_'
+        let question_string = ''
+        response.question_answers.forEach((index, item) => {
+          question_string=string_base+(index+1)
+          core.setOutput(question_string, item)
+        })
+
       } else {
         core.setFailed('You need to answer all the questions')
       }

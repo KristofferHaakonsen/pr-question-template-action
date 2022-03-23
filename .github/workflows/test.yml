@@ -21,7 +21,16 @@ jobs:
           pr_number: ${{ github.event.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Log out the results
-        run: echo "Answers ${{steps.check_questions.outputs.answers}}"
+        run: |
+        echo "Answer1 ${{steps.check_questions.outputs.QUESTION_1}}"
+        echo "Answer2 ${{steps.check_questions.outputs.QUESTION_2}}"
+        echo "Answer3 ${{steps.check_questions.outputs.QUESTION_3}}"
+        echo "Answer4 ${{steps.check_questions.outputs.QUESTION_4}}"
+        echo "Answer5 ${{steps.check_questions.outputs.QUESTION_5}}"
+        echo "Answer6 ${{steps.check_questions.outputs.QUESTION_6}}"
+        echo "Answer7 ${{steps.check_questions.outputs.QUESTION_7}}"
+        echo "-------- TEST _______________-
+        echo "Answer7 ${{steps.check_questions.outputs}}"
 
   database-test:
     runs-on: ubuntu-latest
@@ -47,9 +56,3 @@ jobs:
     steps:
       - name: Log GITHUB_SHA
         run: echo "${{ github.sha }}"
-      - name: Log output of first job
-        run: echo "${{needs.pr-questions.outputs.output-answers}}"
-      - name: Log as json
-        run: echo "${{ toJSON(needs.pr-questions.outputs.output-answers)}}"
-      - name: Log as json first object
-        run: echo "${{ needs.pr-questions.outputs.output-answers[0]}}"
