@@ -26,8 +26,8 @@ jobs:
         run: echo "All ${{ toJson(steps.check_questions.outputs)}}"
       - name: Log out the first two
         run: |
-          echo "First ${{steps.check_questions.outputs.answers_1}}"
-          echo "Second ${{steps.check_questions.outputs.answers_2}}"
+          echo "First ${{steps.check_questions.outputs.answer_1}}"
+          echo "Second ${{steps.check_questions.outputs.answer_2}}"
 
   database-test:
     runs-on: ubuntu-latest
