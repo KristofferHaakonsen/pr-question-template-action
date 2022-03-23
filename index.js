@@ -99,10 +99,9 @@ const main = async () => {
         
         const string_base = 'answer_'
         let question_string
-        let question_number
-        response.question_answers.forEach((index, item) => {
-          question_number=index+1
-          question_string=string_base+question_number
+  
+        response.question_answers.forEach((item, index) => {
+          question_string=string_base+(index+1)
           core.setOutput(question_string, item)
         })
       
