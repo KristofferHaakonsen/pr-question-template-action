@@ -31,7 +31,7 @@ jobs:
 
   database-test:
     runs-on: ubuntu-latest
-    needs: pr-questions
+    needs: check_questions
     steps:
       - name: Check MYSQL version
         run: mysql --version
@@ -42,8 +42,8 @@ jobs:
         run: |
           mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "USE ${{ secrets.DB_NAME }}; SELECT * FROM master_questions"
       - name: Insert into database
-        run: |
-          mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "USE ${{ secrets.DB_NAME }}; INSERT INTO ${{ secrets.DB_TABLE }} (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7) VALUES ( '${{ github.sha }}', ${{steps.check_questions.outputs.answer_1}}, ${{steps.check_questions.outputs.answer_2}}, ${{steps.check_questions.outputs.answer_3}}, ${{steps.check_questions.outputs.answer_4}}, ${{steps.check_questions.outputs.answer_5}}, ${{steps.check_questions.outputs.answer_6}}, ${{steps.check_questions.outputs.answer_7}}) ON DUPLICATE KEY UPDATE QUESTION_1=${{steps.check_questions.outputs.answer_1}}, QUESTION_2=${{steps.check_questions.outputs.answer_q}}, QUESTION_3=${{steps.check_questions.outputs.answer_3}}, QUESTION_4=${{steps.check_questions.outputs.answer_4}}, QUESTION_5=${{steps.check_questions.outputs.answer_5}}, QUESTION_6=${{steps.check_questions.outputs.answer_6}}, QUESTION_7=${{steps.check_questions.outputs.answer_7}};"
+        #run: mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "USE ${{ secrets.DB_NAME }}; INSERT INTO ${{ secrets.DB_TABLE }} (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7) VALUES ( '${{ github.sha }}', ${{steps.check_questions.outputs.answer_1}}, ${{steps.check_questions.outputs.answer_2}}, ${{steps.check_questions.outputs.answer_3}}, ${{steps.check_questions.outputs.answer_4}}, ${{steps.check_questions.outputs.answer_5}}, ${{steps.check_questions.outputs.answer_6}}, ${{steps.check_questions.outputs.answer_7}}) ON DUPLICATE KEY UPDATE QUESTION_1=${{steps.check_questions.outputs.answer_1}}, QUESTION_2=${{steps.check_questions.outputs.answer_q}}, QUESTION_3=${{steps.check_questions.outputs.answer_3}}, QUESTION_4=${{steps.check_questions.outputs.answer_4}}, QUESTION_5=${{steps.check_questions.outputs.answer_5}}, QUESTION_6=${{steps.check_questions.outputs.answer_6}}, QUESTION_7=${{steps.check_questions.outputs.answer_7}};"
+        run: mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "USE ${{ secrets.DB_NAME }}; INSERT INTO ${{ secrets.DB_TABLE }} (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7) VALUES ( '${{ github.sha }}', ${{steps.check_questions.outputs.answer_1}}, ${{steps.check_questions.outputs.answer_2}}, ${{steps.check_questions.outputs.answer_3}}, ${{steps.check_questions.outputs.answer_4}}, ${{steps.check_questions.outputs.answer_5}}, ${{steps.check_questions.outputs.answer_6}}, ${{steps.check_questions.outputs.answer_7}});"
       - name: Select * after insert
         run: |
           mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "USE ${{ secrets.DB_NAME }}; SELECT * FROM ${{ secrets.DB_TABLE }}"
