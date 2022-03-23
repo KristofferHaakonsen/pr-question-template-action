@@ -30,5 +30,8 @@ jobs:
         run: |
           sudo /etc/init.d/mysql start
           mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }}
-          SHOW DATABASES;
-          EXIT;
+      - name: Show databases
+        run: SHOW DATABASES;
+      - name: Exit database
+        if: always()
+        run: EXIT;
