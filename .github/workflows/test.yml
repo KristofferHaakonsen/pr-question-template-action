@@ -43,4 +43,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Log GITHUB_SHA
-      - run: echo "${{ GITHUB_SHA }}"
+        run: echo "${{ GITHUB_SHA }}"
