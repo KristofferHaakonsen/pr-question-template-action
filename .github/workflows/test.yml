@@ -33,5 +33,4 @@ jobs:
               -h ${{ secrets.DB_ENDPOINT }} -P${{ secrets.DB_PORT }} \
               -D ${{ secrets.DB_NAME}}
           SHOW DATABASES;
-          HELP
           EXIT
