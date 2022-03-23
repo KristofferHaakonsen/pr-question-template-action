@@ -34,7 +34,7 @@ jobs:
           mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "USE ${{ secrets.DB_NAME }}; SELECT * FROM master_questions"
       - name: Insert into database
         run: |
-          mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "USE ${{ secrets.DB_NAME }}; INSERT INTO ${{ secrets.DB_TABLE }} (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7) VALUES ( ${{ github.sha }}, 3, 3, 3, 3, 3, 3, 3) ON DUPLICATE KEY UPDATE QUESTION_1=3, QUESTION_2=3, QUESTION_3=3, QUESTION_4=3, QUESTION_5=3, QUESTION_6=3, QUESTION_7=3;"
+          mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "USE ${{ secrets.DB_NAME }}; INSERT INTO ${{ secrets.DB_TABLE }} (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7) VALUES ( '${{ github.sha }}', 3, 3, 3, 3, 3, 3, 3) ON DUPLICATE KEY UPDATE QUESTION_1=3, QUESTION_2=3, QUESTION_3=3, QUESTION_4=3, QUESTION_5=3, QUESTION_6=3, QUESTION_7=3;"
       - name: Select * after insert
         run: |
           mysql -u ${{ secrets.DB_USER}} --password=${{ secrets.DB_PASSWORD }} -h ${{ secrets.DB_ENDPOINT }} -P ${{ secrets.DB_PORT }} -e "USE ${{ secrets.DB_NAME }}; SELECT * FROM ${{ secrets.DB_TABLE }}"
