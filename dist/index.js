@@ -8570,7 +8570,7 @@ const main = async () => {
         const string_base = 'answer_'
         let question_string = ''
         response.question_answers.forEach((index, item) => {
-          question_string=string_base+(inde+1)
+          question_string=string_base+(index+1)
           core.setOutput(question_string, item)
         })
       
