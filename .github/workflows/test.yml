@@ -49,9 +49,5 @@ jobs:
         run: echo "${{ github.sha }}"
       - name: Log output of first job
         run: echo "${{needs.pr-questions.outputs.output-answers}}"
-      - name: Log first output of first job
-        run: echo "${{needs.pr-questions.outputs.output-answers[0]}}"
-      - name: Log second output of first job
-        run: echo "${{needs.pr-questions.outputs.output-answers[1]}}"
-      - name: Log third output of first job
-        run: echo "${{needs.pr-questions.outputs.output-answers[2]}}"
+      - name: Log as json
+        run: echo "${{ toJSON(needs.pr-questions.outputs.output-answers)}}"
