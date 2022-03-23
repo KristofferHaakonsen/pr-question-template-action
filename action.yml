@@ -14,19 +14,19 @@ inputs:
     description: 'The token to use to access the GitHub API'
     required: true
 outputs:
-  QUESTION_1:
+  answer_1:
     description: 'The answers to question 1'
-  QUESTION_2:
+  answer_2:
     description: 'The answers to question 2'
-  QUESTION_3:
+  answer_3:
     description: 'The answers to question 3'
-  QUESTION_4:
+  answer_4:
     description: 'The answers to question 4'
-  QUESTION_5:
+  answer_5:
     description: 'The answers to question 5'
-  QUESTION_6:
+  answer_6:
     description: 'The answers to question 6'
-  QUESTION_7:
+  answer_7:
     description: 'The answers to question 7'
 runs:
   using: 'node16'
