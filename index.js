@@ -94,12 +94,8 @@ const main = async () => {
       core.debug('The checkbox is checked')
       const response = extractData(question_body)
 
-      if (response.status) {
-        core.debug('.----------------------------The JSON data----------------------')
-        core.debug(JSON.stringify(response.question_answers))
-        
-        core.setOutput('answers', JSON.stringify(response.question_answers))
-        //core.setOutput('answers', response.question_answers)
+      if (response.status) {        
+        core.setOutput('answers', response.question_answers)
       } else {
         core.setFailed('You need to answer all the questions')
       }
