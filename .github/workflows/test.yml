@@ -7,6 +7,8 @@ on:
 jobs:
   pr-questions:
     runs-on: ubuntu-latest
+    outputs:
+      output-answers: ${{ steps.check_questions.outputs.answers }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
@@ -41,6 +43,9 @@ jobs:
 
   log-info:
     runs-on: ubuntu-latest
+    needs: pr-questions
     steps:
       - name: Log GITHUB_SHA
         run: echo "${{ github.sha }}"
+      - name: Log output of first job
+        run: echo "${{needs.pr-questions.outputs.output-answers}}"
