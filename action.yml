@@ -14,8 +14,20 @@ inputs:
     description: 'The token to use to access the GitHub API'
     required: true
 outputs:
-  answers:
-    description: 'The answers the the questions'
+  answer_1:
+    description: 'The answers to question 1'
+  answer_2:
+    description: 'The answers to question 2'
+  answer_3:
+    description: 'The answers to question 3'
+  answer_4:
+    description: 'The answers to question 4'
+  answer_5:
+    description: 'The answers to question 5'
+  answer_6:
+    description: 'The answers to question 6'
+  answer_7:
+    description: 'The answers to question 7'
 runs:
   using: 'node16'
   main: 'dist/index.js'
