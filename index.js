@@ -64,16 +64,20 @@ const main = async () => {
       )
       core.setFailed('This is the excpected structure:')
       core.setFailed(`<!--Begin questions-->
-        ## Questions:
-        Please fill in the blanks below with numerical values.
-
-        1. I have added ___ dependencies.
-        2. I have crated ___ new APIs.
-        3. I have created ___ new way to receive user input.
-
-
-        - [ ] I have filled in the questions above :heavy_exclamation_mark:
-        <!--End of questions-->`)
+      ## Questions:
+      Please fill in the blanks below with numerical values.
+      
+      1. I have added ___ dependencies.
+      2. I have created ___ new APIs.
+      3. I have created ___ new way to receive user input.
+      4. I have created ___ new way to receive user input.
+      5. I have created ___ new way to receive user input.
+      6. I have created ___ new way to receive user input.
+      7. I have created ___ new way to receive user input.
+      
+      
+      - [ ] I have filled in the questions above :heavy_exclamation_mark:
+      <!--End of questions-->`)
       return
     }
 
@@ -94,17 +98,16 @@ const main = async () => {
       core.debug('The checkbox is checked')
       const response = extractData(question_body)
 
-      if (response.status) {        
+      if (response.status) {
         //core.setOutput('answers', JSON.stringify(response.question_answers))
-        
+
         const string_base = 'answer_'
         let question_string
-  
+
         response.question_answers.forEach((item, index) => {
-          question_string=string_base+(index+1)
+          question_string = string_base + (index + 1)
           core.setOutput(question_string, item)
         })
-      
       } else {
         core.setFailed('You need to answer all the questions')
       }
