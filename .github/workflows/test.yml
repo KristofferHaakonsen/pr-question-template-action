@@ -38,5 +38,5 @@ jobs:
         uses: azure/sql-action@v1
         with:
           server-name: masterthesisserver.database.windows.net
-          conncetion-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
           sql-file: './test_sql_script.sql'
