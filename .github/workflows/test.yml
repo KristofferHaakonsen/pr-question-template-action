@@ -20,14 +20,20 @@ jobs:
           repo: ${{ github.event.repository.name }}
           pr_number: ${{ github.event.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Log out the results
-        run: echo "All ${{steps.check_questions.outputs}}"
       - name: Log out the results as json
-        run: echo "All ${{ toJson(steps.check_questions.outputs)}}"
+        run: echo "${{ toJson(steps.check_questions.outputs)}}"
       - name: Log out the first two
         run: |
           echo "First ${{steps.check_questions.outputs.answer_1}}"
           echo "Second ${{steps.check_questions.outputs.answer_2}}"
+      - name: Log out the first two as json1
+        run: |
+          echo "First ${{ toJson(steps.check_questions.outputs.answer_1)}}"
+          echo "Second ${{ toJson(steps.check_questions.outputs.answer_2)}}"
+      - name: Log out the first two as json2
+        run: |
+          echo "First ${{ toJson(steps.check_questions.outputs).answer_1}}"
+          echo "Second ${{ toJson(steps.check_questions.outputs).answer_2}}"
 
   database-test:
     runs-on: windows-latest
