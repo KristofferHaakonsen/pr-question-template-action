@@ -8511,17 +8511,14 @@ const main = async () => {
 
 
   // TODO: REMOVE
-  try{
-    const file = fs.readFileSync("./github/pull_request_template.md", 'utf-8')
-    console.log(" THE FILE: ", file)
+  fs.readFile("./github/pull_request_template.md", 'utf-8', (err, data)=>{
     core.debug("***************** THE FILE ************")
-    core.debug(file)
+    core.debug(data)
     core.debug("***************** END FILE ************")
+  })
+    
   
-  }
-  catch(e){
-    core.debug("ERROR while reading file: " , e)
-  }
+  
   
   try {
     // Get input variables
