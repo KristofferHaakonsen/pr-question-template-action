@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
       - name: Read PR-template file
-        uses: ls -l
+        run: ls -l
       - name: Check questions
         id: check_questions
         uses: ./
