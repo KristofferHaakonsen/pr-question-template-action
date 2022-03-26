@@ -17,8 +17,8 @@ jobs:
       - name: Read PR-template file
         run: |
           cd .github
-          cat pull_request_template.md >> $TEMPLATE
-          echo "Lines: ${{ toJson(TEMPLATE) }}"
+          cat pull_request_template.md >> $env.TEMPLATE
+          echo "Lines: ${{ toJson(env.TEMPLATE) }}"
       - name: Check questions
         id: check_questions
         uses: ./
