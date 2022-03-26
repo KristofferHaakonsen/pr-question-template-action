@@ -14,9 +14,8 @@ jobs:
         uses: actions/checkout@v1
       - name: Read PR-template file
         run: |
-          ls -l
           cd .github
-          ls -l
+          cat 'pull_request_template_md'
       - name: Check questions
         id: check_questions
         uses: ./
