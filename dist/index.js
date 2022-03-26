@@ -8492,18 +8492,22 @@ const extractData = (body) => {
 
   // Extract each line that begins with a letter
   let lines = body.split('\n')
-  core.debug('The lines of the question body: ' + lines)
+  core.debug('\u001b[38;5;6mThe lines of the question body: ')
+  core.debug(lines)
 
   // Only keep the questions
   const regex = /^\d\..*/
   let filtered = lines.filter((line) => line.match(regex))
-  core.debug('\u001b[38;5;6mThe question lines: ' + filtered)
+  core.debug('\u001b[38;5;6mThe question lines:')
+  core.debug(filtered)
 
   // Remove the numbers
   let number_removed = filtered.map((line) => line.substring(3))
-  core.debug('\u001b[38;5;6mThe unnumbered questions: ' + number_removed)
+  core.debug('\u001b[38;5;6mThe unnumbered questions: ')
+  core.debug(number_removed)
 
   // Check that each answer contains a number and extract answers
+  //TODO: Update to work with new data structure and None of the above
   let each_contains_number = true
   let answers = Array()
   let number_regex = /\d{1,2}/
