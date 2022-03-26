@@ -46,7 +46,7 @@ const main = async () => {
     const repo = core.getInput('repo', { required: true })
     const pr_number = core.getInput('pr_number', { required: true })
     const token = core.getInput('token', { required: true })
-    const path = core.getInput('path', { required: true })
+    const path = core.getInput('template_path', { required: true })
 
     const body = github.context.payload.pull_request?.body
     core.debug('The PR body: ' + body)
