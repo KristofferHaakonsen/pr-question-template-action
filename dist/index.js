@@ -8509,97 +8509,89 @@ const extractData = (body) => {
 const main = async () => {
   //TODO: Check that the correct questions are there, if not, insert them
 
-  
+  // Get input variables
   try {
-    // Get input variables
     const owner = core.getInput('owner', { required: true })
     const repo = core.getInput('repo', { required: true })
     const pr_number = core.getInput('pr_number', { required: true })
     const token = core.getInput('token', { required: true })
     const path = core.getInput('template_path', { required: true })
-
-    const body = github.context.payload.pull_request?.body
-    core.debug('The PR body: ' + body)
-
-    if (!body) {
-      core.setFailed('There is no body for this PR')
-    }
-
-    try{
-      const data = fs.readFileSync(path, 'utf-8')
-      console.log("READ FROM THE FILE: ", data)
-      
-  }catch(e){
-      console.log(e)
+  } catch (e) {
+    core.setFailed('Failed while getting input')
+    core.setFailed(e)
   }
 
-    const question_body = body.slice(
-      body.indexOf('## Questions:'),
-      body.indexOf('<!--End of questions-->')
+  // Extract body
+  const body = github.context.payload.pull_request?.body
+  core.debug('The PR body: ' + body)
+
+  if (!body) {
+    core.setFailed('There is no body for this PR')
+  }
+
+  // Read template file
+  try {
+    const template_file = fs.readFileSync(path, 'utf-8')
+    core.debug('Read from file: \n', template_file)
+  } catch (e) {
+    core.setFailed('Failed while reading template file at: ', path)
+    core.setFailed(e)
+  }
+
+  // Extract the questions
+  const question_body = body.slice(
+    body.indexOf('## Questions:'),
+    body.indexOf('<!--End of questions-->')
+  )
+  core.debug('The question_body: ' + question_body)
+
+  if (!question_body) {
+    core.setFailed(
+      'There is no question in the body for this PR or the structure of the question section is broken'
     )
-    core.debug('The question_body: ' + question_body)
+    core.setFailed('This is the excpected structure:')
+    core.setFailed(template_file)
+  }
 
-    if (!question_body) {
-      core.setFailed(
-        'There is no question in the body for this PR or the structure of the question section is broken'
-      )
-      core.setFailed('This is the excpected structure:')
-      core.setFailed(`<!--Begin questions-->
-      ## Questions:
-      Please fill in the blanks below with numerical values.
-      
-      1. I have added ___ dependencies.
-      2. I have created ___ new APIs.
-      3. I have created ___ new way to receive user input.
-      4. I have created ___ new way to receive user input.
-      5. I have created ___ new way to receive user input.
-      6. I have created ___ new way to receive user input.
-      7. I have created ___ new way to receive user input.
-      
-      
-      - [ ] I have filled in the questions above :heavy_exclamation_mark:
-      <!--End of questions-->`)
-      return
-    }
+  // Check if the questions are done
+  if (
+    question_body.includes(
+      `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
+    )
+  ) {
+    core.debug('The checkbox is NOT checked')
+    core.setFailed(
+      'You need to answer the questions, and then check the checkbox'
+    )
+  } else if (
+    question_body.includes(
+      `- [x] I have filled in the questions above :heavy_exclamation_mark:`
+    )
+  ) {
+    core.debug('The checkbox is checked')
 
-    if (
-      question_body.includes(
-        `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
-      )
-    ) {
-      core.debug('The checkbox is NOT checked')
-      core.setFailed(
-        'You need to answer the questions, and then check the checkbox'
-      )
-    } else if (
-      question_body.includes(
-        `- [x] I have filled in the questions above :heavy_exclamation_mark:`
-      )
-    ) {
-      core.debug('The checkbox is checked')
-      const response = extractData(question_body)
+    // Extract the data
+    const response = extractData(question_body)
 
-      if (response.status) {
-        //core.setOutput('answers', JSON.stringify(response.question_answers))
+    if (response.status) {
+      // Return the answers
+      const string_base = 'answer_'
+      let question_string
 
-        const string_base = 'answer_'
-        let question_string
-
-        response.question_answers.forEach((item, index) => {
-          question_string = string_base + (index + 1)
-          core.setOutput(question_string, item)
-        })
-      } else {
-        core.setFailed('You need to answer all the questions')
-      }
+      response.question_answers.forEach((item, index) => {
+        question_string = string_base + (index + 1)
+        core.setOutput(question_string, item)
+      })
     } else {
-      core.debug('There is not checkbox there')
-      core.setFailed(
-        'You have removed the checkbox that is related to the questions'
-      )
+      core.setFailed('You need to answer all the questions')
     }
-  } catch (error) {
-    core.setFailed(error.message)
+  } else {
+    core.debug('There is no checkbox there')
+    core.setFailed(
+      'You have removed the checkbox that is related to the questions'
+    )
+    core.setFailed('The correct structure for the question section')
+    core.setFailed(template_file)
   }
 }
 
