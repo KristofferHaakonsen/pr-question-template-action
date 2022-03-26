@@ -1,6 +1,5 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
-const { debug } = require('console')
 const fs = require('fs')
 
 const extractData = (body) => {
@@ -54,6 +53,10 @@ const main = async () => {
     const repo = core.getInput('repo', { required: true })
     const pr_number = core.getInput('pr_number', { required: true })
     const token = core.getInput('token', { required: true })
+    const template = core.getInput('pr_template_content', {required: true})
+
+    core.debug("THE PASSED FILE: ")
+    core.debug(template)
 
     const body = github.context.payload.pull_request?.body
     core.debug('The PR body: ' + body)

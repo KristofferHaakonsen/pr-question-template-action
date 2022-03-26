@@ -8315,14 +8315,6 @@ module.exports = require("assert");
 
 /***/ }),
 
-/***/ 6206:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("console");
-
-/***/ }),
-
 /***/ 2361:
 /***/ ((module) => {
 
@@ -8478,7 +8470,6 @@ var __webpack_exports__ = {};
 (() => {
 const core = __nccwpck_require__(2186)
 const github = __nccwpck_require__(5438)
-const { debug } = __nccwpck_require__(6206)
 const fs = __nccwpck_require__(7147)
 
 const extractData = (body) => {
@@ -8532,6 +8523,10 @@ const main = async () => {
     const repo = core.getInput('repo', { required: true })
     const pr_number = core.getInput('pr_number', { required: true })
     const token = core.getInput('token', { required: true })
+    const template = core.getInput('pr_template_content', {required: true})
+
+    core.debug("THE PASSED FILE: ")
+    core.debug(template)
 
     const body = github.context.payload.pull_request?.body
     core.debug('The PR body: ' + body)
