@@ -20,7 +20,7 @@ jobs:
           repo: ${{ github.event.repository.name }}
           pr_number: ${{ github.event.number }}
           token: ${{ secrets.GITHUB_TOKEN }}'
-          path: './github/pull_request_template.md'
+          template_path: './github/pull_request_template.md'
       - name: Log out the results as json
         run: echo "${{ toJson(steps.check_questions.outputs)}}"
       - name: Log out the first two
