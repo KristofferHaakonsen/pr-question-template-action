@@ -47,6 +47,7 @@ const extractData = (body) => {
   number_removed.forEach((line) => {
     if (line.includes(none_of_the_above)) {
       // If it is, skip it from the required answers
+      //TODO: This kind of works, but it inserts an empty answer in the answer array
       line_answer = true
 
       // TODO: And if it is checked, set all the previous answers to 0
