@@ -41,10 +41,20 @@ const extractData = (body) => {
   let each_contains_number = true
   let answers = Array()
   let number_regex = /\d{1,2}/
+  const none_of_the_above = 'None of the above'
 
   let line_answer
   number_removed.forEach((line) => {
-    line_answer = line.match(number_regex)
+    if (line.includes(none_of_the_above)) {
+      // If it is, skip it from the required answers
+      line_answer = true
+
+      // TODO: And if it is checked, set all the previous answers to 0
+
+      // TODO: This will be a problem for the last None of the above
+    } else {
+      line_answer = line.match(number_regex)
+    }
     if (line_answer) {
       answers.push(line_answer[0])
     } else {
