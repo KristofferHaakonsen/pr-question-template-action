@@ -90,14 +90,14 @@ const main = async () => {
         'You need to answer the questions, and then check the checkbox'
       )
     } else if (
-      question_body.includes(
+      body.includes(
         `- [x] I have filled in the questions above :heavy_exclamation_mark:`
       )
     ) {
       core.debug('\u001b[38;5;6mThe checkbox is checked')
 
       // Extract the data
-      const response = extractData(question_body)
+      const response = extractData(body)
 
       if (response.status) {
         // Return the answers
