@@ -12,13 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-      - name: Log directory
-        run: |
-          ls -l
-          cd .github
-          ls -l
-          cd ..
-          cat .github/pull_request_template.md
       - name: Check questions
         id: check_questions
         uses: ./
