@@ -49,7 +49,7 @@ const main = async () => {
 
     // Extract body
     const body = github.context.payload.pull_request?.body
-    core.debug('The PR body: ' + body)
+    core.debug('\u001b[38;5;6mThe PR body: ' + body)
 
     if (!body) {
       core.setFailed('There is no body for this PR')
