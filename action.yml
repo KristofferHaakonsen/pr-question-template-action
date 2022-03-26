@@ -13,9 +13,6 @@ inputs:
   token:
     description: 'The token to use to access the GitHub API'
     required: true
-  pr_template_content:
-    description: 'The content of the PR template'
-    required: true
 outputs:
   answer_1:
     description: 'The answers to question 1'
