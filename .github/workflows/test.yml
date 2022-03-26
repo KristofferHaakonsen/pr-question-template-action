@@ -6,6 +6,8 @@ on:
 
 jobs:
   pr-questions:
+    env:
+      TEMPLATE: 'empty'
     runs-on: ubuntu-latest
     outputs:
       output-answers: ${{ steps.check_questions.outputs.answers }}
@@ -15,8 +17,8 @@ jobs:
       - name: Read PR-template file
         run: |
           cd .github
-          cat pull_request_template.md >> $GITHUB_ENV
-          echo "Lines: ${{ toJson(GITHUB_ENV) }}"
+          cat pull_request_template.md >> $TEMPLATE
+          echo "Lines: ${{ toJson(TEMPLATE) }}"
       - name: Check questions
         id: check_questions
         uses: ./
