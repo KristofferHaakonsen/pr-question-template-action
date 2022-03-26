@@ -3,6 +3,23 @@ const github = require('@actions/github')
 const fs = require('fs')
 
 const extractData = (body) => {
+  // Extract the questions
+  const question_body = body.slice(
+    body.indexOf('## Questions:'),
+    body.indexOf('<!--End of questions-->')
+  )
+  core.debug('\u001b[38;5;6mThe question_body:')
+  core.debug(question_body)
+
+  if (!question_body) {
+    core.setFailed(
+      'There is no question in the body for this PR or the structure of the question section is broken'
+    )
+    core.setFailed('This is the excpected structure:')
+    core.setFailed(template_file)
+    return
+  }
+
   // Extract each line that begins with a letter
   let lines = body.split('\n')
   core.debug('The lines of the question body: ' + lines)
@@ -39,8 +56,8 @@ const extractData = (body) => {
 const main = async () => {
   //TODO: Check that the correct questions are there, if not, insert them
 
-  // Get input variables
   try {
+    // Get input variables
     const owner = core.getInput('owner', { required: true })
     const repo = core.getInput('repo', { required: true })
     const pr_number = core.getInput('pr_number', { required: true })
@@ -62,25 +79,9 @@ const main = async () => {
     core.debug('\u001b[38;5;6mRead from file: \n')
     core.debug(template_file)
 
-    // Extract the questions
-    const question_body = body.slice(
-      body.indexOf('## Questions:'),
-      body.indexOf('<!--End of questions-->')
-    )
-    core.debug('\u001b[38;5;6mThe question_body: ' + question_body)
-
-    if (!question_body) {
-      core.setFailed(
-        'There is no question in the body for this PR or the structure of the question section is broken'
-      )
-      core.setFailed('This is the excpected structure:')
-      core.setFailed(template_file)
-      return
-    }
-
     // Check if the questions are done
     if (
-      question_body.includes(
+      body.includes(
         `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
       )
     ) {
