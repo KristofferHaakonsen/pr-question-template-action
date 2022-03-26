@@ -46,8 +46,6 @@ jobs:
           server-name: masterthesisserver.database.windows.net
           connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
           sql-file: './create_db.sql'
-      - name: Log outputs
-        run: echo "${{ toJson(steps) }}"
 
       - name: Poulate DB
         uses: azure/sql-action@v1
@@ -55,5 +53,3 @@ jobs:
           server-name: masterthesisserver.database.windows.net
           connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
           sql-file: './populate_db.sql'
-      - name: Log outputs
-        run: echo "${{ toJson(steps) }}"
