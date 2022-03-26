@@ -8513,7 +8513,8 @@ const main = async () => {
   // TODO: REMOVE
   fs.readFile("./github/pull_request_template.md", 'utf-8', (err, data)=>{
     core.debug("***************** THE FILE ************")
-    core.debug(data)
+    core.debug("data: ", data)
+    core.debug("Errors: ", err)
     core.debug("***************** END FILE ************")
   })
     
