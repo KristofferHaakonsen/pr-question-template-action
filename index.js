@@ -39,17 +39,6 @@ const extractData = (body) => {
 const main = async () => {
   //TODO: Check that the correct questions are there, if not, insert them
 
-
-  // TODO: REMOVE
-  fs.readFile("./github/pull_request_template.md", 'utf-8', (err, data)=>{
-    core.debug("***************** THE FILE ************")
-    core.debug("data: ", data)
-    core.debug("Errors: ", err)
-    core.debug("***************** END FILE ************")
-  })
-    
-  
-  
   
   try {
     // Get input variables
@@ -57,6 +46,7 @@ const main = async () => {
     const repo = core.getInput('repo', { required: true })
     const pr_number = core.getInput('pr_number', { required: true })
     const token = core.getInput('token', { required: true })
+    const path = core.getInput('path', { required: true })
 
     const body = github.context.payload.pull_request?.body
     core.debug('The PR body: ' + body)
@@ -64,6 +54,14 @@ const main = async () => {
     if (!body) {
       core.setFailed('There is no body for this PR')
     }
+
+    try{
+      const data = fs.readFileSync(path, 'utf-8')
+      console.log("READ FROM THE FILE: ", data)
+      
+  }catch(e){
+      console.log(e)
+  }
 
     const question_body = body.slice(
       body.indexOf('## Questions:'),
