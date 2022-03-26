@@ -10,11 +10,11 @@ const extractData = (body) => {
   // Only keep the questions
   const regex = /^\d\..*/
   let filtered = lines.filter((line) => line.match(regex))
-  core.debug('The question lines: ' + filtered)
+  core.debug('\u001b[43mThe question lines: ' + filtered)
 
   // Remove the numbers
   let number_removed = filtered.map((line) => line.substring(3))
-  core.debug('The unnumbered questions: ' + number_removed)
+  core.debug('\u001b[43mThe unnumbered questions: ' + number_removed)
 
   // Check that each answer contains a number and extract answers
   let each_contains_number = true
@@ -30,8 +30,8 @@ const extractData = (body) => {
       each_contains_number = false
     }
   })
-  core.debug('The answered questions: ' + answers)
-  core.debug('The status: ' + each_contains_number)
+  core.debug('\u001b[43mThe answered questions: ' + answers)
+  core.debug('\u001b[43mThe status: ' + each_contains_number)
 
   return { status: each_contains_number, question_answers: answers }
 }
@@ -57,14 +57,15 @@ const main = async () => {
 
     // Read template file
     const template_file = fs.readFileSync(path, 'utf-8')
-    core.debug('Read from file: \n', template_file)
+    core.debug('\u001b[43mRead from file: \n', path)
+    core.debug('\u001b[48;5;6mRead from file: \n', template_file)
 
     // Extract the questions
     const question_body = body.slice(
       body.indexOf('## Questions:'),
       body.indexOf('<!--End of questions-->')
     )
-    core.debug('The question_body: ' + question_body)
+    core.debug('\u001b[48;5;6mThe question_body: ' + question_body)
 
     if (!question_body) {
       core.setFailed(
@@ -81,7 +82,7 @@ const main = async () => {
         `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
       )
     ) {
-      core.debug('The checkbox is NOT checked')
+      core.debug('\u001b[43mThe checkbox is NOT checked')
       core.setFailed(
         'You need to answer the questions, and then check the checkbox'
       )
@@ -90,7 +91,7 @@ const main = async () => {
         `- [x] I have filled in the questions above :heavy_exclamation_mark:`
       )
     ) {
-      core.debug('The checkbox is checked')
+      core.debug('\u001b[43mThe checkbox is checked')
 
       // Extract the data
       const response = extractData(question_body)
@@ -109,7 +110,7 @@ const main = async () => {
         return
       }
     } else {
-      core.debug('There is no checkbox there')
+      core.debug('\u001b[43mThere is no checkbox there')
       core.setFailed(
         'You have removed the checkbox that is related to the questions'
       )
