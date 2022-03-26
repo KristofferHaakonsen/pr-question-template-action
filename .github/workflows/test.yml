@@ -17,7 +17,7 @@ jobs:
           cd .github
           TEMPLATE="$(cat pull_request_template.md)"
           echo "TEMPLATE=${TEMPLATE}" >> $GITHUB_ENV
-          echo "Lines: ${{ toJson(GITHUB_ENV) }}"
+          echo "Lines: ${{ TEMPLATE }}"
       - name: Check questions
         id: check_questions
         uses: ./
@@ -26,7 +26,7 @@ jobs:
           repo: ${{ github.event.repository.name }}
           pr_number: ${{ github.event.number }}
           token: ${{ secrets.GITHUB_TOKEN }}'
-          pr_template_content: ${{ GITHUB_ENV.TEMPLATE }}
+          pr_template_content: ${{ TEMPLATE }}
       - name: Log out the results as json
         run: echo "${{ toJson(steps.check_questions.outputs)}}"
       - name: Log out the first two
