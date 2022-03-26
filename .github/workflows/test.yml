@@ -15,10 +15,10 @@ jobs:
       - name: Log directory
         run: |
           ls -l
-          cd ./github
+          cd .github
           ls -l
           cd ..
-          cat ./github/pull_request_template.md
+          cat .github/pull_request_template.md
       - name: Check questions
         id: check_questions
         uses: ./
@@ -27,7 +27,7 @@ jobs:
           repo: ${{ github.event.repository.name }}
           pr_number: ${{ github.event.number }}
           token: ${{ secrets.GITHUB_TOKEN }}'
-          template_path: './github/pull_request_template.md'
+          template_path: '.github/pull_request_template.md'
       - name: Log out the results as json
         run: echo "${{ toJson(steps.check_questions.outputs)}}"
       - name: Log out the first two
