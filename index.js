@@ -41,12 +41,18 @@ const main = async () => {
 
 
   // TODO: REMOVE
-  const file = fs.readFile("./github/pull_request_template.md").toString('utf-8')
-  console.log(" THE FILE: ", file)
-  core.debug("***************** THE FILE ************")
-  core.debug(file)
-  core.debug("***************** END FILE ************")
-
+  try{
+    const file = fs.readFileSync("./github/pull_request_template.md", 'utf-8')
+    console.log(" THE FILE: ", file)
+    core.debug("***************** THE FILE ************")
+    core.debug(file)
+    core.debug("***************** END FILE ************")
+  
+  }
+  catch(e){
+    core.debug("ERROR while reading file: " , e)
+  }
+  
   try {
     // Get input variables
     const owner = core.getInput('owner', { required: true })
