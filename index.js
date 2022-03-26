@@ -1,5 +1,7 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
+const { debug } = require('console')
+const fs = require('fs')
 
 const extractData = (body) => {
   // Extract each line that begins with a letter
@@ -37,6 +39,14 @@ const extractData = (body) => {
 
 const main = async () => {
   //TODO: Check that the correct questions are there, if not, insert them
+
+
+  // TODO: REMOVE
+  const file = fs.readFile("./github/pull_request_template.md").toString('utf-8')
+  console.log(" THE FILE: ", file)
+  core.debug("***************** THE FILE ************")
+  core.debug(file)
+  core.debug("***************** END FILE ************")
 
   try {
     // Get input variables
