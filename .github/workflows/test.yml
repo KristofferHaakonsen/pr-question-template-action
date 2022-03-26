@@ -15,7 +15,8 @@ jobs:
       - name: Read PR-template file
         run: |
           cd .github
-          cat 'pull_request_template_md'
+          ls -l
+          cat 'pull_request_template.md'
       - name: Check questions
         id: check_questions
         uses: ./
