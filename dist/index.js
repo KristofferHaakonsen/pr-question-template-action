@@ -8512,6 +8512,7 @@ const extractData = (body) => {
   const none_of_the_above = 'None of the above'
   const checked_checkbox = '[x]'
   let all_answers_answered = true
+  let unanswered_question = false
   let question_group_end_indices = []
 
   let line_answer
@@ -8526,13 +8527,15 @@ const extractData = (body) => {
         answers.push(line_answer[0])
       } else {
         // No answer, fail
-        all_answers_answered = false
+        unanswered_question = true
       }
     } else {
       // If None of the above, check if checked
       question_group_end_indices.push(index)
       answers.push('checkmark')
       if (line.match(checked_checkbox)) {
+        // If checked, its fine
+        unanswered_question = false
         for (
           let i = index - 1;
           i >= 0 && !question_group_end_indices.includes(i);
@@ -8540,6 +8543,8 @@ const extractData = (body) => {
         ) {
           answers[i] = 0
         }
+      } else {
+        all_answers_answered = false
       }
     }
   })
