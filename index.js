@@ -46,6 +46,7 @@ const extractData = (body) => {
 
   let line_answer
 
+  // TODO: This fails, as it does not accept if you have selected none of the above
   // Extract data
   number_removed.forEach((line, index) => {
     if (!line.match(none_of_the_above)) {
@@ -54,7 +55,7 @@ const extractData = (body) => {
       if (line_answer) {
         answers.push(line_answer[0])
       } else {
-        // TODO: This does not return
+        // No answer, fail
         all_answers_answered = false
       }
     } else {
