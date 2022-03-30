@@ -8595,7 +8595,7 @@ const main = async () => {
       // Extract the data
       const response = extractData(body)
 
-      if (response.length) {
+      if (response.length > 0) {
         // Return the answers
         const string_base = 'answer_'
         let question_string
