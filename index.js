@@ -37,35 +37,46 @@ const extractData = (body) => {
   core.debug(number_removed)
 
   // Check that each answer contains a number and extract answers
-  //TODO: Update to work with new data structure and None of the above
-  let each_contains_number = true
-  let answers = Array()
-  let number_regex = /\d{1,2}/
+  let answers = []
+  let number_regex = /\d{1,3}/
   const none_of_the_above = 'None of the above'
+  const checked_checkbox = '[x]'
+
+  let question_group_end_indices = []
 
   let line_answer
-  number_removed.forEach((line) => {
-    if (line.includes(none_of_the_above)) {
-      // If it is, skip it from the required answers
-      //TODO: This kind of works, but it inserts an empty answer in the answer array
-      line_answer = true
 
-      // TODO: And if it is checked, set all the previous answers to 0
-
-      // TODO: This will be a problem for the last None of the above
-    } else {
+  // Extract data
+  number_removed.forEach((line, index) => {
+    if (!line.match(none_of_the_above)) {
+      // If normal question line, add answer
       line_answer = line.match(number_regex)
-    }
-    if (line_answer) {
-      answers.push(line_answer[0])
+      if (line_answer) {
+        answers.push(line_answer[0])
+      } else {
+        return []
+      }
     } else {
-      each_contains_number = false
+      // If None of the above, check if checked
+      question_group_end_indices.push(index)
+      answers.push('checkmark')
+      if (line.match(checked_checkbox)) {
+        for (
+          let i = index - 1;
+          i >= 0 && !question_group_end_indices.includes(i);
+          i--
+        ) {
+          answers[i] = 0
+        }
+      }
     }
   })
-  core.debug('\u001b[38;5;6mThe answered questions: ' + answers)
-  core.debug('\u001b[38;5;6mThe status: ' + each_contains_number)
 
-  return { status: each_contains_number, question_answers: answers }
+  question_group_end_indices.reverse().forEach((item) => {
+    answers.splice(item, 1)
+  })
+
+  return answers
 }
 
 const main = async () => {
@@ -114,12 +125,12 @@ const main = async () => {
       // Extract the data
       const response = extractData(body)
 
-      if (response.status) {
+      if (data.length) {
         // Return the answers
         const string_base = 'answer_'
         let question_string
 
-        response.question_answers.forEach((item, index) => {
+        response.forEach((item, index) => {
           question_string = string_base + (index + 1)
           core.setOutput(question_string, item)
         })
