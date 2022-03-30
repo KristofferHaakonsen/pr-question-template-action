@@ -54,6 +54,7 @@ const extractData = (body) => {
       if (line_answer) {
         answers.push(line_answer[0])
       } else {
+        // TODO: This does not return
         return []
       }
     } else {
