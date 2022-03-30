@@ -8544,7 +8544,9 @@ const extractData = (body) => {
           answers[i] = 0
         }
       } else {
-        all_answers_answered = false
+        if (unanswered_question) {
+          all_answers_answered = false
+        }
       }
     }
   })
