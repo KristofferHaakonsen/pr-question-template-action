@@ -8511,7 +8511,7 @@ const extractData = (body) => {
   let number_regex = /\d{1,3}/
   const none_of_the_above = 'None of the above'
   const checked_checkbox = '[x]'
-
+  let all_answers_answered = true
   let question_group_end_indices = []
 
   let line_answer
@@ -8524,7 +8524,8 @@ const extractData = (body) => {
       if (line_answer) {
         answers.push(line_answer[0])
       } else {
-        return []
+        // TODO: This does not return
+        all_answers_answered = false
       }
     } else {
       // If None of the above, check if checked
@@ -8546,7 +8547,11 @@ const extractData = (body) => {
     answers.splice(item, 1)
   })
 
-  return answers
+  if (all_answers_answered) {
+    return answers
+  } else {
+    return []
+  }
 }
 
 const main = async () => {
