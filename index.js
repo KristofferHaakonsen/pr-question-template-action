@@ -126,6 +126,8 @@ const main = async () => {
       const response = extractData(body)
 
       if (response.length > 0) {
+        core.debug('\u001b[38;5;6mAll questions are answered: ')
+        core.debug(response)
         // Return the answers
         const string_base = 'answer_'
         let question_string
