@@ -8607,6 +8607,12 @@ const main = async () => {
         const string_base = 'answer_'
         let question_string
 
+        // Attempt to set all as 0
+        for (let i = 0; i < 20; i++) {
+          question_string = string_base + (i + 1)
+          core.setOutput(question_string, 0)
+        }
+
         response.forEach((item, index) => {
           question_string = string_base + (index + 1)
           core.setOutput(question_string, item)
