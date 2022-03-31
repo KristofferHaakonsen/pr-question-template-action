@@ -58,6 +58,8 @@ const extractData = (body) => {
       } else {
         // No answer, fail
         unanswered_question = true
+        // Insert empty, as we dont want to ruin the index
+        answers.push('')
       }
     } else {
       // If None of the above, check if checked
