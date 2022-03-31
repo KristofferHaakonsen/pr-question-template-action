@@ -7,6 +7,8 @@ const ENDOFTEMPLATE = '<!--End of questions-->'
 const COMPLETEDFORMCHECKBOX = `- [x] I have filled in the questions above :heavy_exclamation_mark:`
 const UNCOMPLETEDFORMCHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
 
+let template_file
+
 const extractData = (body) => {
   // Extract the questions
   const question_body = body.slice(
@@ -118,7 +120,7 @@ const main = async () => {
     }
 
     // Read template file
-    const template_file = fs.readFileSync(path, 'utf-8')
+    template_file = fs.readFileSync(path, 'utf-8')
     core.debug('\u001b[38;5;6mRead from file at path:')
     core.debug(path)
     core.debug('\u001b[38;5;6mRead from file: \n')
