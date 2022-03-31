@@ -8472,11 +8472,16 @@ const core = __nccwpck_require__(2186)
 const github = __nccwpck_require__(5438)
 const fs = __nccwpck_require__(7147)
 
+const STARTOFTEMPLATE = '## Questions:'
+const ENDOFTEMPLATE = '<!--End of questions-->'
+const COMPLETEDFORMCHECKBOX = `- [x] I have filled in the questions above :heavy_exclamation_mark:`
+const UNCOMPLETEDFORMCHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
+
 const extractData = (body) => {
   // Extract the questions
   const question_body = body.slice(
-    body.indexOf('## Questions:'),
-    body.indexOf('<!--End of questions-->')
+    body.indexOf(STARTOFTEMPLATE),
+    body.indexOf(ENDOFTEMPLATE)
   )
   core.debug('\u001b[38;5;6mThe question_body:')
   core.debug(question_body)
@@ -8517,7 +8522,6 @@ const extractData = (body) => {
 
   let line_answer
 
-  // TODO: This fails, as it does not accept if you have selected none of the above
   // Extract data
   number_removed.forEach((line, index) => {
     if (!line.match(none_of_the_above)) {
@@ -8591,20 +8595,10 @@ const main = async () => {
     core.debug(template_file)
 
     // Check if the questions are done
-    if (
-      body.includes(
-        `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
-      )
-    ) {
+    if (body.includes(UNCOMPLETEDFORMCHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is NOT checked')
-      core.setFailed(
-        'You need to answer the questions, and then check the checkbox'
-      )
-    } else if (
-      body.includes(
-        `- [x] I have filled in the questions above :heavy_exclamation_mark:`
-      )
-    ) {
+      core.setFailed('You need to check the checkbox')
+    } else if (body.includes(COMPLETEDFORMCHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is checked')
 
       // Extract the data
