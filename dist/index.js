@@ -8591,6 +8591,7 @@ const main = async () => {
 
     if (!body) {
       core.setFailed('There is no body for this PR')
+      return
     }
 
     // Read template file
@@ -8604,6 +8605,7 @@ const main = async () => {
     if (body.includes(UNCOMPLETEDFORMCHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is NOT checked')
       core.setFailed('You need to check the checkbox')
+      return
     } else if (body.includes(COMPLETEDFORMCHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is checked')
 
@@ -8629,6 +8631,7 @@ const main = async () => {
         })
       } else {
         core.setFailed('You need to answer all the questions')
+        return
       }
     } else {
       core.debug('\u001b[38;5;6mThere is no checkbox there')
@@ -8637,9 +8640,11 @@ const main = async () => {
       )
       core.setFailed('The correct structure for the question section')
       core.setFailed(template_file)
+      return
     }
   } catch (e) {
     core.setFailed(e)
+    return
   }
 }
 
