@@ -8495,7 +8495,7 @@ const extractData = (body) => {
     )
     core.setFailed('This is the excpected structure:')
     core.setFailed(template_file)
-    return
+    return []
   }
 
   // Extract each line that begins with a letter
