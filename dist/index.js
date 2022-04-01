@@ -8472,10 +8472,13 @@ const core = __nccwpck_require__(2186)
 const github = __nccwpck_require__(5438)
 const fs = __nccwpck_require__(7147)
 
+// Constants
 const STARTOFTEMPLATE = '## Questions:'
 const ENDOFTEMPLATE = '<!--End of questions-->'
 const COMPLETEDFORMCHECKBOX = `- [x] I have filled in the questions above :heavy_exclamation_mark:`
 const UNCOMPLETEDFORMCHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
+
+let template_file
 
 const extractData = (body) => {
   // Extract the questions
@@ -8530,7 +8533,7 @@ const extractData = (body) => {
       if (line_answer) {
         answers.push(line_answer[0])
       } else {
-        // No answer, fail
+        // No answer
         unanswered_question = true
         // Insert empty, as we dont want to ruin the index
         answers.push('')
@@ -8550,6 +8553,7 @@ const extractData = (body) => {
           answers[i] = 0
         }
       } else {
+        // Failed
         if (unanswered_question) {
           all_answers_answered = false
         }
@@ -8557,6 +8561,7 @@ const extractData = (body) => {
     }
   })
 
+  // Remove inserted "checkmarks"
   question_group_end_indices.reverse().forEach((item) => {
     answers.splice(item, 1)
   })
@@ -8569,10 +8574,11 @@ const extractData = (body) => {
 }
 
 const main = async () => {
-  //TODO: Check that the correct questions are there, if not, insert them
+  //TODO: Check that the correct questions are there, if not, insert them?
 
   try {
     // Get input variables
+    // TODO: Evaluate if these variables are needed or not
     const owner = core.getInput('owner', { required: true })
     const repo = core.getInput('repo', { required: true })
     const pr_number = core.getInput('pr_number', { required: true })
@@ -8588,7 +8594,7 @@ const main = async () => {
     }
 
     // Read template file
-    const template_file = fs.readFileSync(path, 'utf-8')
+    template_file = fs.readFileSync(path, 'utf-8')
     core.debug('\u001b[38;5;6mRead from file at path:')
     core.debug(path)
     core.debug('\u001b[38;5;6mRead from file: \n')
@@ -8611,7 +8617,7 @@ const main = async () => {
         const string_base = 'answer_'
         let question_string
 
-        // Attempt to set all as 0
+        // Set all output as 0, in case there is few questions
         for (let i = 0; i < 20; i++) {
           question_string = string_base + (i + 1)
           core.setOutput(question_string, 0)
@@ -8623,7 +8629,6 @@ const main = async () => {
         })
       } else {
         core.setFailed('You need to answer all the questions')
-        return
       }
     } else {
       core.debug('\u001b[38;5;6mThere is no checkbox there')
@@ -8632,14 +8637,12 @@ const main = async () => {
       )
       core.setFailed('The correct structure for the question section')
       core.setFailed(template_file)
-      return
     }
   } catch (e) {
     core.setFailed(e)
   }
 }
 
-// Call the main function to run the action
 main()
 
 })();
