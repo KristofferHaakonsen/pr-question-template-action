@@ -61,7 +61,7 @@ const extractData = (body) => {
       // If normal question line, add answer
       line_answer = line.match(number_regex)
       if (line_answer) {
-        answers.push(line_answer[0])
+        answers.push(parseInt(line_answer[0]))
       } else {
         // No answer
         unanswered_question = true
