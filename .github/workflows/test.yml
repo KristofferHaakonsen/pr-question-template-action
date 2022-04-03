@@ -7,8 +7,6 @@ on:
 jobs:
   pr-questions:
     runs-on: windows-latest
-    outputs:
-      output-answers: ${{ steps.check_questions.outputs.answers }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
