@@ -16,6 +16,9 @@ inputs:
   template_path:
     description: 'The path to the pr-template file'
     required: true
+  sha:
+    description: 'The SHA of the PR'
+    required: true
 outputs:
   answer_1:
     description: 'The answers to question 1'

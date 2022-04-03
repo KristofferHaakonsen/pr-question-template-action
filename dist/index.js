@@ -8603,6 +8603,7 @@ const main = async () => {
     const pr_number = core.getInput('pr_number', { required: true })
     const token = core.getInput('token', { required: true })
     const path = core.getInput('template_path', { required: true })
+    const sha = core.getInput('sha', { required: true })
 
     const octokit = new github.getOctokit(token)
 
@@ -8612,15 +8613,6 @@ const main = async () => {
 
     if (!body) {
       core.setFailed('There is no body for this PR')
-      return
-    }
-
-    // Extract hash
-    const hash = github.context.payload.pull_request
-    core.debug('\u001b[38;5;6mThe PR: ' + JSON.stringify(hash))
-
-    if (!hash) {
-      core.setFailed('There is no hash for this PR')
       return
     }
 
@@ -8660,8 +8652,7 @@ const main = async () => {
           core.setOutput(question_string, item)
         })
 
-        // Create sql file
-        //createFile(response)
+        createFile(response, sha)
       } else {
         core.setFailed('You need to answer all the questions')
         return
