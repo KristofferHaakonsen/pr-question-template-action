@@ -8477,15 +8477,12 @@ const STARTOFTEMPLATE = '## Questions:'
 const ENDOFTEMPLATE = '<!--End of questions-->'
 const COMPLETEDFORMCHECKBOX = `- [x] I have filled in the questions above :heavy_exclamation_mark:`
 const UNCOMPLETEDFORMCHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
-const FIRSTHALFSQL =
-  'INSERT INTO master_questions (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20) VALUES ('
-const LASTHALFSQL = ');'
 
 let template_file
 
 const createSqlFiles = (answers, hash) => {
   // Create query string
-  let dataString = `${FIRSTHALFSQL} '${hash}'`
+  let dataString = `'INSERT INTO master_questions (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20) VALUES (' '${hash}'`
   for (let i = 0; i < 20; i++) {
     if (answers[i]) {
       dataString += ',' + answers[i]
@@ -8493,7 +8490,7 @@ const createSqlFiles = (answers, hash) => {
       dataString += ',' + null
     }
   }
-  dataString += LASTHALFSQL
+  dataString += ');'
 
   fs.writeFile('populate_db.sql', dataString, function (err) {
     if (err) throw err
