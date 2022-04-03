@@ -8661,7 +8661,7 @@ const main = async () => {
         })
 
         // Create sql file
-        createFile(response)
+        //createFile(response)
       } else {
         core.setFailed('You need to answer all the questions')
         return
