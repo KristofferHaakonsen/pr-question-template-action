@@ -39,6 +39,8 @@ jobs:
         run: echo "TODO, this needs to be done!!"
       - name: Print files
         run: ls -l
+      - name: Print SHA
+        run: echo "${GITHUB_SHA}"
 
   database-test:
     runs-on: windows-latest
