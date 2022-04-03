@@ -8583,7 +8583,7 @@ const main = async () => {
     const token = core.getInput('token', { required: true })
     const path = core.getInput('template_path', { required: true })
 
-    const octokit = new github.Github(token)
+    const octokit = new github.getOctokit(token)
     writeFile('test')
 
     // Extract body
