@@ -3,37 +3,59 @@ const github = require('@actions/github')
 const fs = require('fs')
 
 // Constants
-const STARTOFTEMPLATE = '## Questions:'
-const ENDOFTEMPLATE = '<!--End of questions-->'
-const COMPLETEDFORMCHECKBOX = `- [x] I have filled in the questions above :heavy_exclamation_mark:`
-const UNCOMPLETEDFORMCHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
+const START_OF_TEMPLATE = '## Questions:'
+const END_OF_TEMPLATE = '<!--End of questions-->'
+const COMPLETED_FORM_CHECKBOX = `- [x] I have filled in the questions above :heavy_exclamation_mark:`
+const UNCOMPLETED_FORM_CHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
+const NUMBER_OF_QUESTIONS = 20
 
 let template_file
 
 const createSqlFiles = (answers, hash) => {
-  // Create query string
-  // TODO: Add update statement as well
-  let dataString = `INSERT INTO master_questions (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20) VALUES ( '${hash}'`
-  for (let i = 0; i < 20; i++) {
+  // Create insert string
+  let insertString = `INSERT INTO master_questions (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20) VALUES ( '${hash}'`
+  for (let i = 0; i < NUMBER_OF_QUESTIONS; i++) {
     if (answers[i]) {
-      dataString += ',' + answers[i]
+      insertString += ',' + answers[i]
     } else {
-      dataString += ',' + null
+      insertString += ',' + null
     }
   }
-  dataString += ');'
+  insertString += ');'
 
-  fs.writeFile('populate_db.sql', dataString, function (err) {
+  fs.writeFile('populate_db.sql', insertString, function (err) {
     if (err) throw err
-    core.debug('\u001b[38;5;6mFile is created successfully.')
+    core.debug(
+      '\u001b[38;5;6mSQL file is created successfully and successfull insert statement.'
+    )
+  })
+
+  // Create updateString
+  let updateString = 'UPDATE master_questions SET '
+  for (let i = 0; i < NUMBER_OF_QUESTIONS; i++) {
+    if (answers[i]) {
+      updateString += `QUESTION_${i + 1}=${answers[i]}`
+    } else {
+      updateString += `QUESTION_${i + 1}=null`
+    }
+
+    if (i != NUMBER_OF_QUESTIONS - 1) {
+      updateString += ','
+    }
+  }
+  updateString += ` WHERE HASH='${hash}';`
+
+  fs.appendFile('populate_db.sql', updateString, function (err) {
+    if (err) throw err
+    core.debug('\u001b[38;5;6mSuccessfull update statement.')
   })
 }
 
 const extractData = (body) => {
   // Extract the questions
   const question_body = body.slice(
-    body.indexOf(STARTOFTEMPLATE),
-    body.indexOf(ENDOFTEMPLATE)
+    body.indexOf(START_OF_TEMPLATE),
+    body.indexOf(END_OF_TEMPLATE)
   )
   core.debug('\u001b[38;5;6mThe question_body:')
   core.debug(question_body)
@@ -150,11 +172,11 @@ const main = async () => {
     core.debug(template_file)
 
     // Check if the questions are done
-    if (body.includes(UNCOMPLETEDFORMCHECKBOX)) {
+    if (body.includes(UNCOMPLETED_FORM_CHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is NOT checked')
       core.setFailed('You need to check the checkbox')
       return
-    } else if (body.includes(COMPLETEDFORMCHECKBOX)) {
+    } else if (body.includes(COMPLETED_FORM_CHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is checked')
 
       // Extract the data
