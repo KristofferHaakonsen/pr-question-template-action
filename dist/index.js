@@ -8521,24 +8521,7 @@ const createSqlFiles = (answers, hash, sql_file_name) => {
   })
 }
 
-const extractData = (body) => {
-  // Extract the questions
-  const question_body = body.slice(
-    body.indexOf(START_OF_TEMPLATE),
-    body.indexOf(END_OF_TEMPLATE)
-  )
-  core.debug('\u001b[38;5;6mThe question_body:')
-  core.debug(question_body)
-
-  if (!question_body) {
-    core.setFailed(
-      'There is no question in the body for this PR or the structure of the question section is broken'
-    )
-    core.setFailed('This is the excpected structure:')
-    core.setFailed(template_file)
-    return []
-  }
-
+const extractData = (question_body) => {
   // Extract each line that begins with a letter
   let lines = question_body.split('\n')
   core.debug('\u001b[38;5;6mThe lines of the question body: ')
@@ -8628,7 +8611,8 @@ const main = async () => {
 
     // Extract body
     const body = github.context.payload.pull_request?.body
-    core.debug('\u001b[38;5;6mThe PR body: ' + body)
+    core.debug('\u001b[38;5;6mThe PR body:')
+    core.debug(body)
 
     if (!body) {
       core.setFailed('There is no body for this PR')
@@ -8642,17 +8626,34 @@ const main = async () => {
     core.debug('\u001b[38;5;6mRead from file: \n')
     core.debug(template_file)
 
+    // Extract the question body
+    const question_body = body.slice(
+      body.indexOf(START_OF_TEMPLATE),
+      body.indexOf(END_OF_TEMPLATE)
+    )
+    core.debug('\u001b[38;5;6mThe question_body:')
+    core.debug(question_body)
+
+    if (!question_body) {
+      core.setFailed(
+        'There is no question in the body for this PR or the structure of the question section is broken'
+      )
+      core.setFailed('This is the excpected structure:')
+      core.setFailed(template_file)
+      return []
+    }
+
     // Check if the questions are done
     //TODO: IN THEORY, THIS CHECKBOX CHECKS OUTSIDE OF THE QUESTION STRUCTURE, SHOULD PERHAPS MOVE IT?
-    if (body.includes(UNCOMPLETED_FORM_CHECKBOX)) {
+    if (question_body.includes(UNCOMPLETED_FORM_CHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is NOT checked')
       core.setFailed('You need to check the checkbox')
       return
-    } else if (body.includes(COMPLETED_FORM_CHECKBOX)) {
+    } else if (question_body.includes(COMPLETED_FORM_CHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is checked')
 
       // Extract the data
-      const response = extractData(body)
+      const response = extractData(question_body)
 
       if (response.length > 0) {
         core.debug('\u001b[38;5;6mAll questions are answered: ')
