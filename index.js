@@ -143,7 +143,7 @@ const main = async () => {
       owner,
       repo,
       message: 'add sql file',
-      tree: hash,
+      tree: sha,
       'author.name': 'materthesisbot',
       'author.email': 'masterthesis@bot.com',
     })
