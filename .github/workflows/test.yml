@@ -45,6 +45,9 @@ jobs:
     runs-on: windows-latest
     needs: pr-questions
     steps:
+      - name: List files
+        run: dir
+
       - name: Checkout code
         uses: actions/checkout@v1
 
