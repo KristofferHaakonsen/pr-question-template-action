@@ -6,7 +6,7 @@ on:
 
 jobs:
   pr-questions:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     outputs:
       output-answers: ${{ steps.check_questions.outputs.answers }}
     steps:
@@ -48,10 +48,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
 
-      - name: List files 1
+      - name: List files
         run: dir
-      - name: List files 2
-        run: ls
 
       - name: Create DB
         uses: azure/sql-action@v1
