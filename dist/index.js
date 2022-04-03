@@ -8605,19 +8605,6 @@ const main = async () => {
     const path = core.getInput('template_path', { required: true })
     const sha = core.getInput('sha', { required: true })
 
-    const octokit = new github.getOctokit(token)
-
-    //TODO: Remove
-    // Trying to make a simple commit
-    octokit.rest.git.createCommit({
-      owner,
-      repo,
-      message: 'add sql file',
-      tree: sha,
-      'author.name': 'materthesisbot',
-      'author.email': 'masterthesis@bot.com',
-    })
-
     // Extract body
     const body = github.context.payload.pull_request?.body
     core.debug('\u001b[38;5;6mThe PR body: ' + body)
