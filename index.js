@@ -18,7 +18,7 @@ const createFile = (answers, hash) => {
   let dataString = `${FIRSTHALFSQL} '${hash}'`
   for (let i = 0; i < 20; i++) {
     if (answers[i]) {
-      dataString += ',' + data[i]
+      dataString += ',' + answers[i]
     } else {
       dataString += ',' + null
     }
