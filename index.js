@@ -165,22 +165,9 @@ const main = async () => {
       if (response.length > 0) {
         core.debug('\u001b[38;5;6mAll questions are answered: ')
         core.debug(response)
-        // Return the answers
-        const string_base = 'answer_'
-        let question_string
-
-        // Set all output as 0, in case there is few questions
-        for (let i = 0; i < 20; i++) {
-          question_string = string_base + (i + 1)
-          core.setOutput(question_string, 0)
-        }
-
-        response.forEach((item, index) => {
-          question_string = string_base + (index + 1)
-          core.setOutput(question_string, item)
-        })
 
         createSqlFiles(response, sha)
+        core.s
       } else {
         core.setFailed('You need to answer all the questions')
         return

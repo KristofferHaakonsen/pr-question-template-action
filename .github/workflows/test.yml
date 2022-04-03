@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
+
       - name: Check questions
         id: check_questions
         uses: ./
@@ -22,19 +23,12 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           template_path: '.github/pull_request_template.md'
           sha: ${{ github.sha }}
-      - name: Log out the results as json
-        run: echo "${{ toJson(steps.check_questions.outputs)}}"
-      - name: Log out the first two
-        run: |
-          echo "First ${{steps.check_questions.outputs.answer_1}}"
-          echo "Second ${{steps.check_questions.outputs.answer_2}}"
-      - name: Log out the first two as json
-        run: |
-          echo "First ${{ toJson(steps.check_questions.outputs.answer_1)}}"
-          echo "Second ${{ toJson(steps.check_questions.outputs.answer_2)}}"
 
       - name: List files
         run: dir
+
+      - name: Read from sql file
+        run: type './populate_db.sql'
 
       - name: Push to DB
         uses: azure/sql-action@v1
