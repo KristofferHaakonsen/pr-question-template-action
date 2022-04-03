@@ -11,7 +11,7 @@ const NUMBER_OF_QUESTIONS = 20
 
 let template_file
 
-const createSqlFiles = (answers, hash) => {
+const createSqlFiles = (answers, hash, sql_file_name) => {
   // Create insert string
   let insertString = `INSERT INTO master_questions (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20) VALUES ( '${hash}'`
   for (let i = 0; i < NUMBER_OF_QUESTIONS; i++) {
@@ -23,7 +23,7 @@ const createSqlFiles = (answers, hash) => {
   }
   insertString += ');'
 
-  fs.writeFile('populate_db.sql', insertString, function (err) {
+  fs.writeFile(sql_file_name, insertString, function (err) {
     if (err) throw err
     core.debug(
       '\u001b[38;5;6mSQL file is created successfully and successfull insert statement.'
@@ -45,7 +45,7 @@ const createSqlFiles = (answers, hash) => {
   }
   updateString += ` WHERE HASH='${hash}';`
 
-  fs.appendFile('populate_db.sql', updateString, function (err) {
+  fs.appendFile(sql_file_name, updateString, function (err) {
     if (err) throw err
     core.debug('\u001b[38;5;6mSuccessfull update statement.')
   })
@@ -154,6 +154,7 @@ const main = async () => {
     const token = core.getInput('token', { required: true })
     const path = core.getInput('template_path', { required: true })
     const sha = core.getInput('sha', { required: true })
+    const sql_file_name = core.getInput('sql_file_name', { required: true })
 
     // Extract body
     const body = github.context.payload.pull_request?.body
@@ -186,7 +187,7 @@ const main = async () => {
         core.debug('\u001b[38;5;6mAll questions are answered: ')
         core.debug(response)
 
-        createSqlFiles(response, sha)
+        createSqlFiles(response, sha, sql_file_name)
         core.s
       } else {
         core.setFailed('You need to answer all the questions')

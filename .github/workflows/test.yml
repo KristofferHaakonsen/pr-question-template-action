@@ -23,6 +23,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           template_path: '.github/pull_request_template.md'
           sha: ${{ github.sha }}
+          sql_file_name: 'populate_db.sql'
 
       - name: List files
         run: dir

@@ -1,5 +1,5 @@
 name: 'PR Question Action'
-description: 'Check answers on pull request'
+description: 'Check answers on pull request, and writes the answers to an .sql file'
 inputs:
   owner:
     description: 'The owner of the repository'
@@ -18,6 +18,9 @@ inputs:
     required: true
   sha:
     description: 'The SHA of the PR'
+    required: true
+  sql_file_name:
+    description: 'The name of the sql file'
     required: true
 runs:
   using: 'node16'
