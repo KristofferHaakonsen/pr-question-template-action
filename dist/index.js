@@ -8617,7 +8617,7 @@ const main = async () => {
 
     // Extract hash
     const hash = github.context.payload.pull_request
-    core.debug('\u001b[38;5;6mThe PR body: ' + hash)
+    core.debug('\u001b[38;5;6mThe PR: ' + JSON.stringify(hash))
 
     if (!hash) {
       core.setFailed('There is no hash for this PR')
