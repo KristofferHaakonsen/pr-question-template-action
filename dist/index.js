@@ -8477,8 +8477,29 @@ const STARTOFTEMPLATE = '## Questions:'
 const ENDOFTEMPLATE = '<!--End of questions-->'
 const COMPLETEDFORMCHECKBOX = `- [x] I have filled in the questions above :heavy_exclamation_mark:`
 const UNCOMPLETEDFORMCHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
+const FIRSTHALFSQL =
+  'INSERT INTO master_questions (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20) VALUES ('
+const LASTHALFSQL = ');'
 
 let template_file
+
+const createFile = (answers, hash) => {
+  // Create query string
+  let dataString = `${FIRSTHALFSQL} '${hash}'`
+  for (let i = 0; i < 20; i++) {
+    if (answers[i]) {
+      dataString += ',' + data[i]
+    } else {
+      dataString += ',' + null
+    }
+  }
+  dataString += LASTHALFSQL
+
+  fs.writeFile('sql_query.txt', dataString, function (err) {
+    if (err) throw err
+    console.log('File is created successfully.')
+  })
+}
 
 const extractData = (body) => {
   // Extract the questions
@@ -8584,7 +8605,6 @@ const main = async () => {
     const path = core.getInput('template_path', { required: true })
 
     const octokit = new github.getOctokit(token)
-    writeFile('test')
 
     // Extract body
     const body = github.context.payload.pull_request?.body
@@ -8592,6 +8612,15 @@ const main = async () => {
 
     if (!body) {
       core.setFailed('There is no body for this PR')
+      return
+    }
+
+    // Extract hash
+    const hash = github.context.payload.pull_request
+    core.debug('\u001b[38;5;6mThe PR body: ' + hash)
+
+    if (!hash) {
+      core.setFailed('There is no hash for this PR')
       return
     }
 
@@ -8630,6 +8659,9 @@ const main = async () => {
           question_string = string_base + (index + 1)
           core.setOutput(question_string, item)
         })
+
+        // Create sql file
+        createFile(response)
       } else {
         core.setFailed('You need to answer all the questions')
         return
@@ -8647,17 +8679,6 @@ const main = async () => {
     core.setFailed(e)
     return
   }
-}
-
-const writeFile = (input) => {
-  fs.writeFile(
-    'sql_query.txt',
-    "INSERT INTO master_questions (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12) VALUES ( 'knsjknfnk', 1, 2, 3, 4, 5, 6, 7, 8, null, null, null, null);",
-    function (err) {
-      if (err) throw err
-      console.log('File is created successfully.')
-    }
-  )
 }
 
 main()
