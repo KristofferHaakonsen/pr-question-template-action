@@ -25,7 +25,7 @@ const createSqlFiles = (answers, hash) => {
   }
   dataString += LASTHALFSQL
 
-  fs.writeFile('populate_db.txt', dataString, function (err) {
+  fs.writeFile('populate_db.sql', dataString, function (err) {
     if (err) throw err
     core.debug('\u001b[38;5;6mFile is created successfully.')
   })
