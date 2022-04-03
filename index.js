@@ -13,7 +13,7 @@ const LASTHALFSQL = ');'
 
 let template_file
 
-const createSqlInsert = (answers, hash) => {
+const createSqlFiles = (answers, hash) => {
   // Create query string
   let dataString = `${FIRSTHALFSQL} '${hash}'`
   for (let i = 0; i < 20; i++) {
@@ -25,25 +25,7 @@ const createSqlInsert = (answers, hash) => {
   }
   dataString += LASTHALFSQL
 
-  fs.writeFile('sql_query.txt', dataString, function (err) {
-    if (err) throw err
-    console.log('File is created successfully.')
-  })
-}
-
-const createSqlUpdate = (answers, hash) => {
-  // Create query string
-  let dataString = `${FIRSTHALFSQL} '${hash}'`
-  for (let i = 0; i < 20; i++) {
-    if (answers[i]) {
-      dataString += ',' + answers[i]
-    } else {
-      dataString += ',' + null
-    }
-  }
-  dataString += LASTHALFSQL
-
-  fs.writeFile('sql_query.txt', dataString, function (err) {
+  fs.writeFile('populate_db.txt', dataString, function (err) {
     if (err) throw err
     console.log('File is created successfully.')
   })
@@ -197,6 +179,8 @@ const main = async () => {
           question_string = string_base + (index + 1)
           core.setOutput(question_string, item)
         })
+
+        createSqlFiles(response, sha)
       } else {
         core.setFailed('You need to answer all the questions')
         return

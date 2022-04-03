@@ -28,16 +28,10 @@ jobs:
         run: |
           echo "First ${{steps.check_questions.outputs.answer_1}}"
           echo "Second ${{steps.check_questions.outputs.answer_2}}"
-      - name: Log out the first two as json1
+      - name: Log out the first two as json
         run: |
           echo "First ${{ toJson(steps.check_questions.outputs.answer_1)}}"
           echo "Second ${{ toJson(steps.check_questions.outputs.answer_2)}}"
-      - name: Log out the first two as json2
-        run: |
-          echo "First ${{ toJson(steps.check_questions.outputs).answer_1}}"
-          echo "Second ${{ toJson(steps.check_questions.outputs).answer_2}}"
-      - name: Insert answers into sql file
-        run: echo "TODO, this needs to be done!!"
 
       - name: List files
         run: dir
