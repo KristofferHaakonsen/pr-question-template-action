@@ -45,13 +45,13 @@ jobs:
     runs-on: windows-latest
     needs: pr-questions
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
       - name: List files 1
         run: dir
       - name: List files 2
         run: ls
-
-      - name: Checkout code
-        uses: actions/checkout@v1
 
       - name: Create DB
         uses: azure/sql-action@v1
