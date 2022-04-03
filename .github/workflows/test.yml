@@ -37,6 +37,8 @@ jobs:
           echo "Second ${{ toJson(steps.check_questions.outputs).answer_2}}"
       - name: Insert answers into sql file
         run: echo "TODO, this needs to be done!!"
+      - name: Print files
+        run: ls -l
 
   database-test:
     runs-on: windows-latest

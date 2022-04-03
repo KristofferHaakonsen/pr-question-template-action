@@ -104,8 +104,6 @@ const extractData = (body) => {
 }
 
 const main = async () => {
-  //TODO: Check that the correct questions are there, if not, insert them?
-
   try {
     // Get input variables
     // TODO: Evaluate if these variables are needed or not
@@ -114,6 +112,9 @@ const main = async () => {
     const pr_number = core.getInput('pr_number', { required: true })
     const token = core.getInput('token', { required: true })
     const path = core.getInput('template_path', { required: true })
+
+    const octokit = new github.Github(token)
+    writeFile('test')
 
     // Extract body
     const body = github.context.payload.pull_request?.body
@@ -176,6 +177,17 @@ const main = async () => {
     core.setFailed(e)
     return
   }
+}
+
+const writeFile = (input) => {
+  fs.writeFile(
+    'sql_query.txt',
+    "INSERT INTO master_questions (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12) VALUES ( 'knsjknfnk', 1, 2, 3, 4, 5, 6, 7, 8, null, null, null, null);",
+    function (err) {
+      if (err) throw err
+      console.log('File is created successfully.')
+    }
+  )
 }
 
 main()
