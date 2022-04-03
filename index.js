@@ -27,7 +27,7 @@ const createSqlFiles = (answers, hash) => {
 
   fs.writeFile('populate_db.txt', dataString, function (err) {
     if (err) throw err
-    console.log('File is created successfully.')
+    core.debug('\u001b[38;5;6mFile is created successfully.')
   })
 }
 
