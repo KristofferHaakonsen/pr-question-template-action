@@ -70,7 +70,7 @@ const extractData = (body) => {
   }
 
   // Extract each line that begins with a letter
-  let lines = body.split('\n')
+  let lines = question_body.split('\n')
   core.debug('\u001b[38;5;6mThe lines of the question body: ')
   core.debug(lines)
 
@@ -173,6 +173,7 @@ const main = async () => {
     core.debug(template_file)
 
     // Check if the questions are done
+    //TODO: IN THEORY, THIS CHECKBOX CHECKS OUTSIDE OF THE QUESTION STRUCTURE, SHOULD PERHAPS MOVE IT?
     if (body.includes(UNCOMPLETED_FORM_CHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is NOT checked')
       core.setFailed('You need to check the checkbox')
