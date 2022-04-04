@@ -8616,7 +8616,8 @@ const extractData = (question_body) => {
   if (all_answers_answered) {
     return answers
   } else {
-    return []
+    core.debug('\u001b[38;5;6mThere are unanswered questions')
+    throw new Error('You need to answer all the questions')
   }
 }
 
@@ -8679,16 +8680,10 @@ const main = async () => {
       // Extract the data
       const response = extractData(question_body)
 
-      if (response.length > 0) {
-        core.debug('\u001b[38;5;6mAll questions are answered: ')
-        core.debug(response)
+      core.debug('\u001b[38;5;6mAll questions are answered: ')
+      core.debug(response)
 
-        createSqlFiles(response, sha, sql_file_name)
-        core.s
-      } else {
-        core.debug('\u001b[38;5;6mThere are unanswered questions')
-        throw new Error('You need to answer all the questions')
-      }
+      createSqlFiles(response, sha, sql_file_name)
     } else {
       core.debug('\u001b[38;5;6mThere is no checkbox there')
       throw new Error(
