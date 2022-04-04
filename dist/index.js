@@ -8622,8 +8622,7 @@ const extractBody = (startOfTemplate, endOfTemplate, template_file) => {
   core.debug(body)
 
   if (!body) {
-    core.setFailed('There is no body for this PR')
-    return
+    throw new Error('There is no body for this PR')
   }
 
   // Extract the question body
@@ -8635,11 +8634,10 @@ const extractBody = (startOfTemplate, endOfTemplate, template_file) => {
   core.debug(question_body)
 
   if (!question_body) {
-    core.setFailed(
-      'There is no question in the body for this PR or the structure of the question section is broken'
+    throw new Error(
+      'There is no question in the body for this PR or the structure of the question section is broken\n This is the excpected structure:\n ',
+      template_file
     )
-    core.setFailed('This is the excpected structure:')
-    core.setFailed(template_file)
   }
 
   return question_body
@@ -8668,8 +8666,7 @@ const main = async () => {
     // Check if the questions are done
     if (question_body.includes(UNCOMPLETED_FORM_CHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is NOT checked')
-      core.setFailed('You need to check the checkbox')
-      return
+      throw new Error('You need to check the checkbox')
     } else if (question_body.includes(COMPLETED_FORM_CHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is checked')
 
@@ -8683,12 +8680,11 @@ const main = async () => {
         createSqlFiles(response, sha, sql_file_name)
         core.s
       } else {
-        core.setFailed('You need to answer all the questions')
-        return
+        throw new Error('You need to answer all the questions')
       }
     } else {
       core.debug('\u001b[38;5;6mThere is no checkbox there')
-      core.setFailed(
+      throw new Error(
         'You have removed the checkbox that is related to the questions'
       )
       core.setFailed('The correct structure for the question section')
