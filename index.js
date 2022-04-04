@@ -56,7 +56,7 @@ const createSqlFiles = (answers, hash, sql_file_name) => {
   // Create updateString
   let updateString = 'UPDATE master_questions SET '
   for (let i = 0; i < NUMBER_OF_QUESTIONS; i++) {
-    if (typeof array[i] === 'number') {
+    if (typeof answers[i] === 'number') {
       updateString += `QUESTION_${i + 1}=${answers[i]}`
     } else {
       updateString += `QUESTION_${i + 1}=null`
