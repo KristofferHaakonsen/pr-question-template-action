@@ -171,6 +171,8 @@ const extractBody = (startOfTemplate, endOfTemplate, template_file) => {
     core.setFailed('This is the excpected structure:')
     core.setFailed(template_file)
   }
+
+  return question_body
 }
 
 const main = async () => {
