@@ -8472,10 +8472,6 @@ const core = __nccwpck_require__(2186)
 const github = __nccwpck_require__(5438)
 const fs = __nccwpck_require__(7147)
 
-// Constants
-const COMPLETED_FORM_CHECKBOX = `- [x] I have filled in the questions above :heavy_exclamation_mark:`
-const UNCOMPLETED_FORM_CHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
-
 const readFile = (path) => {
   // Read template file
   const template_file = fs.readFileSync(path, 'utf-8')
@@ -8493,12 +8489,23 @@ const readFile = (path) => {
 
   const start = lines[0]
   const end = lines[lines.length - 1]
+  const confirmationCheckbox = lines[lines.length - 2]
+  const checkedConfirmationCheckbox = confirmationCheckbox.replace('[ ]', '[x]')
   core.debug(
-    '\u001b[38;5;6mThe start and end of template: ' + start + ' , ' + end
+    '\u001b[38;5;6mFrom template\nStart: ' +
+      start +
+      '\nEnd: ' +
+      end +
+      '\nUnchecked line: ' +
+      checkboxLine +
+      '\nCheckedLine: ' +
+      checkedCheckBoxLine
   )
   return {
     startOfTemplate: start,
     endOfTemplate: end,
+    confirmationTemplate: confirmationCheckbox,
+    checkedConfirmationTemplate: checkedConfirmationCheckbox,
     template_file: template_file,
   }
 }
@@ -8689,7 +8696,13 @@ const main = async () => {
       })
     )
 
-    const { startOfTemplate, endOfTemplate, template_file } = readFile(PATH)
+    const {
+      startOfTemplate,
+      endOfTemplate,
+      confirmationTemplate,
+      checkedConfirmationTemplate,
+      template_file,
+    } = readFile(PATH)
 
     const question_body = extractBody(
       startOfTemplate,
@@ -8698,10 +8711,10 @@ const main = async () => {
     )
 
     // Check if the questions are done
-    if (question_body.includes(UNCOMPLETED_FORM_CHECKBOX)) {
+    if (question_body.includes(confirmationTemplate)) {
       core.debug('\u001b[38;5;6mThe checkbox is NOT checked')
       throw new Error('You need to check the checkbox')
-    } else if (question_body.includes(COMPLETED_FORM_CHECKBOX)) {
+    } else if (question_body.includes(checkedConfirmationTemplate)) {
       core.debug('\u001b[38;5;6mThe checkbox is checked')
 
       const response = extractData(question_body)
