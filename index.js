@@ -7,7 +7,7 @@ const COMPLETED_FORM_CHECKBOX = `- [x] I have filled in the questions above :hea
 const UNCOMPLETED_FORM_CHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
 const NUMBER_OF_QUESTIONS = 20
 
-const readFile = () => {
+const readFile = (path) => {
   // Read template file
   const template_file = fs.readFileSync(path, 'utf-8')
   core.debug('\u001b[38;5;6mRead from file at path:')
@@ -158,7 +158,7 @@ const main = async () => {
     const sha = core.getInput('sha', { required: true })
     const sql_file_name = core.getInput('sql_file_name', { required: true })
 
-    const { startOfTemplate, endOfTemplate, template_file } = readFile()
+    const { startOfTemplate, endOfTemplate, template_file } = readFile(path)
 
     // Extract body
     const body = github.context.payload.pull_request?.body
