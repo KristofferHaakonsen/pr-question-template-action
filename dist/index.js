@@ -8616,6 +8616,33 @@ const extractData = (question_body) => {
   }
 }
 
+const extractBody = (startOfTemplate, endOfTemplate, template_file) => {
+  const body = github.context.payload.pull_request?.body
+  core.debug('\u001b[38;5;6mThe PR body:')
+  core.debug(body)
+
+  if (!body) {
+    core.setFailed('There is no body for this PR')
+    return
+  }
+
+  // Extract the question body
+  const question_body = body.slice(
+    body.indexOf(startOfTemplate),
+    body.indexOf(endOfTemplate)
+  )
+  core.debug('\u001b[38;5;6mThe question_body:')
+  core.debug(question_body)
+
+  if (!question_body) {
+    core.setFailed(
+      'There is no question in the body for this PR or the structure of the question section is broken'
+    )
+    core.setFailed('This is the excpected structure:')
+    core.setFailed(template_file)
+  }
+}
+
 const main = async () => {
   try {
     // Get input variables
@@ -8630,35 +8657,13 @@ const main = async () => {
 
     const { startOfTemplate, endOfTemplate, template_file } = readFile(path)
 
-    // Extract body
-    const body = github.context.payload.pull_request?.body
-    core.debug('\u001b[38;5;6mThe PR body:')
-    core.debug(body)
-
-    if (!body) {
-      core.setFailed('There is no body for this PR')
-      return
-    }
-
-    // Extract the question body
-    const question_body = body.slice(
-      body.indexOf(startOfTemplate),
-      body.indexOf(endOfTemplate)
+    const question_body = extractBody(
+      startOfTemplate,
+      endOfTemplate,
+      template_file
     )
-    core.debug('\u001b[38;5;6mThe question_body:')
-    core.debug(question_body)
-
-    if (!question_body) {
-      core.setFailed(
-        'There is no question in the body for this PR or the structure of the question section is broken'
-      )
-      core.setFailed('This is the excpected structure:')
-      core.setFailed(template_file)
-      return []
-    }
 
     // Check if the questions are done
-    //TODO: IN THEORY, THIS CHECKBOX CHECKS OUTSIDE OF THE QUESTION STRUCTURE, SHOULD PERHAPS MOVE IT?
     if (question_body.includes(UNCOMPLETED_FORM_CHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is NOT checked')
       core.setFailed('You need to check the checkbox')
