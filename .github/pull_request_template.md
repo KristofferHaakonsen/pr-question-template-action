@@ -6,7 +6,7 @@
 ## Questions:
 Please answer the questions by inserting a numerical value after the ":" symbol or check the "None of the above"-option.
 
-**I have created/added/opened new:**
+**I have created/added/opened/granted new:**
 1. APIs/Ports:
 2. ways to receive user input:
 3. databases:
@@ -14,7 +14,9 @@ Please answer the questions by inserting a numerical value after the ":" symbol 
 5. ways to access/modify databases:
 6. global variables:
 7. dependencies:
-8. - [ ] None of the above
+8. classes/modules
+9. privileges
+10. - [ ] None of the above
 
 
 **I have modified:**
@@ -24,7 +26,9 @@ Please answer the questions by inserting a numerical value after the ":" symbol 
 5. ways to access/modify databases:
 6. global variables:
 7. dependencies:
-8. - [ ] None of the above
+8. classes/modules
+9. privileges
+10. - [ ] None of the above
 
 
 
