@@ -183,6 +183,7 @@ const extractData = (question_body) => {
     return answers
   } else {
     core.debug('\u001b[38;5;6mThere are unanswered questions')
+    core.error('You need to answer all the questions')
     throw new Error('You need to answer all the questions')
   }
 }
@@ -194,6 +195,7 @@ const extractBody = (startOfTemplate, endOfTemplate, template_file) => {
 
   if (!body) {
     core.debug('\u001b[38;5;6mThere is no body for this PR')
+    core.error('There is no body for this PR')
     throw new Error('There is no body for this PR')
   }
 
@@ -207,6 +209,7 @@ const extractBody = (startOfTemplate, endOfTemplate, template_file) => {
 
   if (!question_body) {
     core.debug('\u001b[38;5;6mSomething is wrong with the structure')
+    core.error('The structure of the PR is incorrect')
     throw new Error(
       'There is no question in the body for this PR or the structure of the question section is broken\nThis is the excpected structure:\n' +
         template_file
@@ -258,6 +261,7 @@ const main = async () => {
     // Check if the questions are done
     if (question_body.includes(confirmationTemplate)) {
       core.debug('\u001b[38;5;6mThe checkbox is NOT checked')
+      core.error('The checkbox is NOT checked')
       throw new Error('You need to check the checkbox')
     } else if (question_body.includes(checkedConfirmationTemplate)) {
       core.debug('\u001b[38;5;6mThe checkbox is checked')
@@ -267,6 +271,7 @@ const main = async () => {
       core.debug('\u001b[38;5;6mAll questions are answered: ')
       core.debug(response)
 
+      core.info('The answers: ', response)
       createSqlFiles(
         response,
         SHA,
@@ -278,6 +283,7 @@ const main = async () => {
       )
     } else {
       core.debug('\u001b[38;5;6mThere is no checkbox there')
+      core.error('The checkbox is missing')
       throw new Error(
         'You have removed the checkbox that is related to the questions\nThis is the excpected structure:\n' +
           template_file
