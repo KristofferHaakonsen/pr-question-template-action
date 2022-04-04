@@ -165,8 +165,8 @@ const extractBody = (startOfTemplate, endOfTemplate, template_file) => {
 
   if (!question_body) {
     throw new Error(
-      'There is no question in the body for this PR or the structure of the question section is broken\n This is the excpected structure:\n ',
-      template_file
+      'There is no question in the body for this PR or the structure of the question section is broken\nThis is the excpected structure:\n' +
+        template_file
     )
   }
 
@@ -215,8 +215,8 @@ const main = async () => {
     } else {
       core.debug('\u001b[38;5;6mThere is no checkbox there')
       throw new Error(
-        'You have removed the checkbox that is related to the questions\nThis is the excpected structure:\n ',
-        template_file
+        'You have removed the checkbox that is related to the questions\nThis is the excpected structure:\n' +
+          template_file
       )
     }
   } catch (e) {
