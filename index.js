@@ -3,13 +3,32 @@ const github = require('@actions/github')
 const fs = require('fs')
 
 // Constants
-const START_OF_TEMPLATE = '## Questions:'
-const END_OF_TEMPLATE = '<!--End of questions-->'
 const COMPLETED_FORM_CHECKBOX = `- [x] I have filled in the questions above :heavy_exclamation_mark:`
 const UNCOMPLETED_FORM_CHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
 const NUMBER_OF_QUESTIONS = 20
 
-let template_file
+const readFile = () => {
+  // Read template file
+  const template_file = fs.readFileSync(path, 'utf-8')
+  core.debug('\u001b[38;5;6mRead from file at path:')
+  core.debug(path)
+  core.debug('\u001b[38;5;6mRead from file:')
+  core.debug(template_file)
+
+  // Split into array
+  let lines = template_file.split('\n')
+  // Remove all lines that simply are \r \n or ''
+  lines = lines.filter((item) => item !== '\r' && item !== '\n' && item !== '')
+  // Remove all \r\n kinds of symbols
+  lines = lines.map((item) => item.replace(/\r?\n|\r/g, ''))
+
+  const start = lines[0]
+  const end = lines[lines.length - 1]
+  core.debug(
+    '\u001b[38;5;6mThe start and end of template: ' + start + ' , ' + end
+  )
+  return { startOfTemplate: start, endOfTemplate: end }
+}
 
 const createSqlFiles = (answers, hash, sql_file_name) => {
   // Create insert string
@@ -139,6 +158,8 @@ const main = async () => {
     const sha = core.getInput('sha', { required: true })
     const sql_file_name = core.getInput('sql_file_name', { required: true })
 
+    const { startOfTemplate, endOfTemplate, template_file } = readFile()
+
     // Extract body
     const body = github.context.payload.pull_request?.body
     core.debug('\u001b[38;5;6mThe PR body:')
@@ -149,17 +170,10 @@ const main = async () => {
       return
     }
 
-    // Read template file
-    template_file = fs.readFileSync(path, 'utf-8')
-    core.debug('\u001b[38;5;6mRead from file at path:')
-    core.debug(path)
-    core.debug('\u001b[38;5;6mRead from file: \n')
-    core.debug(template_file)
-
     // Extract the question body
     const question_body = body.slice(
-      body.indexOf(START_OF_TEMPLATE),
-      body.indexOf(END_OF_TEMPLATE)
+      body.indexOf(startOfTemplate),
+      body.indexOf(endOfTemplate)
     )
     core.debug('\u001b[38;5;6mThe question_body:')
     core.debug(question_body)
