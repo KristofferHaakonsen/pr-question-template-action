@@ -13,13 +13,13 @@ inputs:
   sql_table_name:
     description: 'The name of the sql table'
     required: true
-  sql_file_name:
+  sql_file_name_create:
     description: 'The name of the create db sql file'
     required: true
-  sql_file_name_update_db:
+  sql_file_name_update:
     description: 'The name of the update db sql file'
     required: true
-  sql_file_name_insert_db:
+  sql_file_name_insert:
     description: 'The name of the insert sql file'
     required: true
   number_of_fields_db:
