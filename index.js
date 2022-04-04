@@ -59,6 +59,27 @@ const createSqlFiles = (answers, hash, sql_file_name, numbersOfQuestions) => {
     )
   })
 
+  // Create updateString
+  let updateString = 'UPDATE master_questions SET '
+  for (let i = 0; i < numbersOfQuestions; i++) {
+    if (typeof answers[i] === 'number') {
+      updateString += `QUESTION_${i + 1}=${answers[i]}`
+    } else {
+      updateString += `QUESTION_${i + 1}=null`
+    }
+
+    if (i != numbersOfQuestions - 1) {
+      updateString += ', '
+    }
+  }
+  updateString += ` WHERE HASH='${hash}';`
+  core.debug('UpdateString: ' + updateString)
+
+  fs.appendFile(sql_file_name, updateString, function (err) {
+    if (err) throw err
+    core.debug('\u001b[38;5;6mSuccessfull update statement')
+  })
+
   // Create insert string
   let insertString = `INSERT INTO master_questions (HASH`
   for (let i = 1; i < numbersOfQuestions + 1; i++) {
@@ -79,27 +100,6 @@ const createSqlFiles = (answers, hash, sql_file_name, numbersOfQuestions) => {
   fs.appendFile(sql_file_name, insertString, function (err) {
     if (err) throw err
     core.debug('\u001b[38;5;6mSuccessfull insert statement')
-  })
-
-  // Create updateString
-  let updateString = 'UPDATE master_questions SET '
-  for (let i = 0; i < numbersOfQuestions; i++) {
-    if (typeof answers[i] === 'number') {
-      updateString += `QUESTION_${i + 1}=${answers[i]}`
-    } else {
-      updateString += `QUESTION_${i + 1}=null`
-    }
-
-    if (i != numbersOfQuestions - 1) {
-      updateString += ', '
-    }
-  }
-  updateString += ` WHERE HASH='${hash}';`
-  core.debug('UpdateString: ' + updateString)
-
-  fs.appendFile(sql_file_name, updateString, function (err) {
-    if (err) throw err
-    core.debug('\u001b[38;5;6mSuccessfull update statement')
   })
 }
 
