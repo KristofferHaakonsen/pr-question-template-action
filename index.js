@@ -27,7 +27,11 @@ const readFile = (path) => {
   core.debug(
     '\u001b[38;5;6mThe start and end of template: ' + start + ' , ' + end
   )
-  return { startOfTemplate: start, endOfTemplate: end }
+  return {
+    startOfTemplate: start,
+    endOfTemplate: end,
+    template_file: template_file,
+  }
 }
 
 const createSqlFiles = (answers, hash, sql_file_name) => {
