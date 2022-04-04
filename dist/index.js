@@ -8519,7 +8519,7 @@ const createSqlFiles = (answers, hash, sql_file_name) => {
   fs.writeFile(sql_file_name, insertString, function (err) {
     if (err) throw err
     core.debug(
-      '\u001b[38;5;6mSQL file is created successfully and successfull insert statement.'
+      '\u001b[38;5;6mSQL file is created successfully and successfull insert statement'
     )
   })
 
@@ -8540,7 +8540,7 @@ const createSqlFiles = (answers, hash, sql_file_name) => {
 
   fs.appendFile(sql_file_name, updateString, function (err) {
     if (err) throw err
-    core.debug('\u001b[38;5;6mSuccessfull update statement.')
+    core.debug('\u001b[38;5;6mSuccessfull update statement')
   })
 }
 
@@ -8626,6 +8626,7 @@ const extractBody = (startOfTemplate, endOfTemplate, template_file) => {
   core.debug(body)
 
   if (!body) {
+    core.debug('\u001b[38;5;6mThere is no body for this PR')
     throw new Error('There is no body for this PR')
   }
 
@@ -8638,6 +8639,7 @@ const extractBody = (startOfTemplate, endOfTemplate, template_file) => {
   core.debug(question_body)
 
   if (!question_body) {
+    core.debug('\u001b[38;5;6mSomething is wrong with the structure')
     throw new Error(
       'There is no question in the body for this PR or the structure of the question section is broken\nThis is the excpected structure:\n' +
         template_file
@@ -8684,12 +8686,14 @@ const main = async () => {
         createSqlFiles(response, sha, sql_file_name)
         core.s
       } else {
+        core.debug('\u001b[38;5;6mThere are unanswered questions')
         throw new Error('You need to answer all the questions')
       }
     } else {
       core.debug('\u001b[38;5;6mThere is no checkbox there')
       throw new Error(
-        `You have removed the checkbox that is related to the questions\nThis is the excpected structure:\n${template_file}`
+        'You have removed the checkbox that is related to the questions\nThis is the excpected structure:\n' +
+          template_file
       )
     }
   } catch (e) {
