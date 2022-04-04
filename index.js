@@ -221,6 +221,9 @@ const main = async () => {
     // Get input variables
     const PATH = core.getInput('template_path', { required: true })
     const SHA = core.getInput('sha', { required: true })
+    const SQL_TABLE_NAME = core.getInput('sql_table_name', {
+      required: true,
+    })
     const SQL_FILE_NAME_CREATE = core.getInput('sql_file_name_create', {
       required: true,
     })
@@ -235,9 +238,6 @@ const main = async () => {
         required: true,
       })
     )
-    const SQL_TABLE_NAME = core.getInput('sql_table_name', {
-      required: true,
-    })
 
     // Read from the template file
     const {
