@@ -40,7 +40,14 @@ const readFile = (path) => {
   }
 }
 
-const createSqlFiles = (answers, hash, sql_file_name, numbersOfQuestions) => {
+const createSqlFiles = (
+  answers,
+  hash,
+  sql_file_name_create,
+  sql_file_name_update,
+  sql_file_name_insert,
+  numbersOfQuestions
+) => {
   // Create 'create db string'
   let createDatabaseString =
     'CREATE TABLE master_questions ( HASH varchar(40) NOT NULL,'
@@ -52,7 +59,7 @@ const createSqlFiles = (answers, hash, sql_file_name, numbersOfQuestions) => {
     ' created_at DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (HASH));'
 
   core.debug('Create db string: ' + createDatabaseString)
-  fs.writeFile(sql_file_name, createDatabaseString, function (err) {
+  fs.writeFile(sql_file_name_create, createDatabaseString, function (err) {
     if (err) throw err
     core.debug(
       '\u001b[38;5;6mSQL file is created successfully and successfull insert create db statement'
@@ -75,7 +82,7 @@ const createSqlFiles = (answers, hash, sql_file_name, numbersOfQuestions) => {
   updateString += ` WHERE HASH='${hash}';`
   core.debug('UpdateString: ' + updateString)
 
-  fs.appendFile(sql_file_name, updateString, function (err) {
+  fs.writeFile(sql_file_name_update, updateString, function (err) {
     if (err) throw err
     core.debug('\u001b[38;5;6mSuccessfull update statement')
   })
@@ -97,7 +104,7 @@ const createSqlFiles = (answers, hash, sql_file_name, numbersOfQuestions) => {
   insertString += ');'
   core.debug('Insertstring: ' + insertString)
 
-  fs.appendFile(sql_file_name, insertString, function (err) {
+  fs.writeFile(sql_file_name_insert, insertString, function (err) {
     if (err) throw err
     core.debug('\u001b[38;5;6mSuccessfull insert statement')
   })
@@ -219,7 +226,15 @@ const main = async () => {
     const TOKEN = core.getInput('token', { required: true })
     const PATH = core.getInput('template_path', { required: true })
     const SHA = core.getInput('sha', { required: true })
-    const SQL_FILE_NAME = core.getInput('sql_file_name', { required: true })
+    const SQL_FILE_NAME_CREATE_DB = core.getInput('sql_file_name_create_db', {
+      required: true,
+    })
+    const SQL_FILE_NAME_UPDATE_DB = core.getInput('sql_file_name_update_db', {
+      required: true,
+    })
+    const SQL_FILE_NAME_INSERT_DB = core.getInput('sql_file_name_insert_db', {
+      required: true,
+    })
     const NUMBER_OF_QUESTIONS = parseInt(
       core.getInput('number_of_questions', {
         required: true,
@@ -254,7 +269,14 @@ const main = async () => {
       core.debug('\u001b[38;5;6mAll questions are answered: ')
       core.debug(response)
 
-      createSqlFiles(response, SHA, SQL_FILE_NAME, NUMBER_OF_QUESTIONS)
+      createSqlFiles(
+        response,
+        SHA,
+        SQL_FILE_NAME_CREATE_DB,
+        SQL_FILE_NAME_UPDATE_DB,
+        SQL_FILE_NAME_INSERT_DB,
+        NUMBER_OF_QUESTIONS
+      )
     } else {
       core.debug('\u001b[38;5;6mThere is no checkbox there')
       throw new Error(
