@@ -8696,6 +8696,7 @@ const main = async () => {
       })
     )
 
+    // Read from the template file
     const {
       startOfTemplate,
       endOfTemplate,
@@ -8704,6 +8705,7 @@ const main = async () => {
       template_file,
     } = readFile(PATH)
 
+    // Extract from the PR-body
     const question_body = extractBody(
       startOfTemplate,
       endOfTemplate,
