@@ -15,10 +15,6 @@ jobs:
         id: check_questions
         uses: ./
         with:
-          owner: ${{ github.repository_owner }}
-          repo: ${{ github.event.repository.name }}
-          pr_number: ${{ github.event.number }}
-          token: ${{ secrets.GITHUB_TOKEN }}
           template_path: '.github/pull_request_template.md'
           sha: ${{ github.sha }}
           sql_file_name_create_db: 'create_db.sql'

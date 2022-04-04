@@ -8690,10 +8690,10 @@ const main = async () => {
   try {
     // Get input variables
     // TODO: Evaluate if these variables are needed or not
-    const OWNER = core.getInput('owner', { required: true })
-    const REPO = core.getInput('repo', { required: true })
-    const PR_NUMBER = core.getInput('pr_number', { required: true })
-    const TOKEN = core.getInput('token', { required: true })
+    //const OWNER = core.getInput('owner', { required: true })
+    //const REPO = core.getInput('repo', { required: true })
+    //const PR_NUMBER = core.getInput('pr_number', { required: true })
+    //const TOKEN = core.getInput('token', { required: true })
     const PATH = core.getInput('template_path', { required: true })
     const SHA = core.getInput('sha', { required: true })
     const SQL_FILE_NAME_CREATE_DB = core.getInput('sql_file_name_create_db', {
