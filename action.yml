@@ -1,5 +1,8 @@
 name: 'PR Question Template Action'
 description: 'Check answers on pull request, and writes the answers to an .sql file'
+branding:
+  icon: 'check-square'
+  color: 'green'
 inputs:
   template_path:
     description: 'The path to the pr-template file'
