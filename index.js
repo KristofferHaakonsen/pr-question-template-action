@@ -56,7 +56,7 @@ const createSqlFiles = (answers, hash, sql_file_name) => {
   // Create updateString
   let updateString = 'UPDATE master_questions SET '
   for (let i = 0; i < NUMBER_OF_QUESTIONS; i++) {
-    if (answers[i]) {
+    if (typeof array[i] === 'number') {
       updateString += `QUESTION_${i + 1}=${answers[i]}`
     } else {
       updateString += `QUESTION_${i + 1}=null`
@@ -207,7 +207,6 @@ const main = async () => {
     } else if (question_body.includes(COMPLETED_FORM_CHECKBOX)) {
       core.debug('\u001b[38;5;6mThe checkbox is checked')
 
-      // Extract the data
       const response = extractData(question_body)
 
       core.debug('\u001b[38;5;6mAll questions are answered: ')
