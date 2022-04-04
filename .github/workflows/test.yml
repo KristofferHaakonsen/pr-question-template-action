@@ -1,0 +1,54 @@
+name: Get questions from PR
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  pr-questions:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Check questions
+        id: check_questions
+        uses: ./
+        with:
+          template_path: '.github/pull_request_template.md'
+          sha: ${{ github.sha }}
+          sql_table_name: ${{ secrets.DB_TABLE }}
+          sql_file_name_create: 'create_db.sql'
+          sql_file_name_update: 'update_db.sql'
+          sql_file_name_insert: 'insert_db.sql'
+          number_of_fields_db: 20
+
+      - name: List files
+        run: dir
+
+      - name: Read from sql file
+        run: |
+          type './create_db.sql'
+          type './update_db.sql'
+          type './insert_db.sql'
+
+      - name: Create db
+        uses: azure/sql-action@v1
+        with:
+          server-name: ${{ secrets.DB_SERVER }}
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+          sql-file: './create_db.sql'
+
+      - name: Update db
+        uses: azure/sql-action@v1
+        with:
+          server-name: ${{ secrets.DB_SERVER }}
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+          sql-file: './update_db.sql'
+
+      - name: Insert db
+        uses: azure/sql-action@v1
+        with:
+          server-name: ${{ secrets.DB_SERVER }}
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+          sql-file: './insert_db.sql'
