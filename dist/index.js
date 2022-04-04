@@ -8475,7 +8475,6 @@ const fs = __nccwpck_require__(7147)
 // Constants
 const COMPLETED_FORM_CHECKBOX = `- [x] I have filled in the questions above :heavy_exclamation_mark:`
 const UNCOMPLETED_FORM_CHECKBOX = `- [ ] I have filled in the questions above :heavy_exclamation_mark:`
-const NUMBER_OF_QUESTIONS = 20
 
 const readFile = (path) => {
   // Read template file
@@ -8684,9 +8683,11 @@ const main = async () => {
     const PATH = core.getInput('template_path', { required: true })
     const SHA = core.getInput('sha', { required: true })
     const SQL_FILE_NAME = core.getInput('sql_file_name', { required: true })
-    const NUMBER_OF_QUESTIONS = core.getInput('number_of_questions', {
-      required: true,
-    })
+    const NUMBER_OF_QUESTIONS = parseInt(
+      core.getInput('number_of_questions', {
+        required: true,
+      })
+    )
 
     const { startOfTemplate, endOfTemplate, template_file } = readFile(PATH)
 
