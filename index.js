@@ -27,9 +27,9 @@ const readFile = (path) => {
       '\nEnd: ' +
       end +
       '\nUnchecked line: ' +
-      checkboxLine +
+      confirmationCheckbox +
       '\nCheckedLine: ' +
-      checkedCheckBoxLine
+      checkedConfirmationCheckbox
   )
   return {
     startOfTemplate: start,
