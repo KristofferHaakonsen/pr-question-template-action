@@ -22,7 +22,7 @@ jobs:
           template_path: '.github/pull_request_template.md'
           sha: ${{ github.sha }}
           sql_file_name: 'populate_db.sql'
-          number_of_questions: 20
+          number_of_questions: 10
 
       - name: List files
         run: dir
