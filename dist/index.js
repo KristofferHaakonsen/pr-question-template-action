@@ -8504,39 +8504,62 @@ const readFile = (path) => {
   }
 }
 
-const createSqlFiles = (answers, hash, sql_file_name) => {
+const createSqlFiles = (answers, hash, sql_file_name, numbersOfQuestions) => {
+  // Create 'create db string'
+  let createDatabaseString =
+    'CREATE TABLE master_questions ( HASH varchar(40) NOT NULL,'
+
+  for (let i = 1; i < numbersOfQuestions + 1; i++) {
+    createDatabaseString += ` QUESTION_${i} int,`
+  }
+  createDatabaseString +=
+    ' created_at DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (HASH));'
+
+  core.debug('Create db string: ' + createDatabaseString)
+  fs.writeFile(sql_file_name, createDatabaseString, function (err) {
+    if (err) throw err
+    core.debug(
+      '\u001b[38;5;6mSQL file is created successfully and successfull insert create db statement'
+    )
+  })
+
   // Create insert string
-  let insertString = `INSERT INTO master_questions (HASH, QUESTION_1, QUESTION_2, QUESTION_3, QUESTION_4, QUESTION_5, QUESTION_6, QUESTION_7, QUESTION_8, QUESTION_9, QUESTION_10, QUESTION_11, QUESTION_12, QUESTION_13, QUESTION_14, QUESTION_15, QUESTION_16, QUESTION_17, QUESTION_18, QUESTION_19, QUESTION_20) VALUES ( '${hash}'`
-  for (let i = 0; i < NUMBER_OF_QUESTIONS; i++) {
-    if (answers[i]) {
-      insertString += ',' + answers[i]
+  let insertString = `INSERT INTO master_questions (HASH`
+  for (let i = 1; i < numbersOfQuestions + 1; i++) {
+    insertString += `, QUESTION_${i}`
+  }
+  insertString += `) VALUES ( '${hash}'`
+
+  for (let i = 0; i < numbersOfQuestions; i++) {
+    if (typeof answers[i] === 'number') {
+      insertString += `, ${answers[i]}`
     } else {
-      insertString += ',' + null
+      insertString += `, null`
     }
   }
   insertString += ');'
+  core.debug('Insertstring: ' + insertString)
 
-  fs.writeFile(sql_file_name, insertString, function (err) {
+  fs.appendFile(sql_file_name, insertString, function (err) {
     if (err) throw err
-    core.debug(
-      '\u001b[38;5;6mSQL file is created successfully and successfull insert statement'
-    )
+    core.debug('\u001b[38;5;6mSuccessfull insert statement')
   })
 
   // Create updateString
   let updateString = 'UPDATE master_questions SET '
-  for (let i = 0; i < NUMBER_OF_QUESTIONS; i++) {
+  for (let i = 0; i < numbersOfQuestions; i++) {
     if (typeof answers[i] === 'number') {
       updateString += `QUESTION_${i + 1}=${answers[i]}`
     } else {
       updateString += `QUESTION_${i + 1}=null`
     }
 
-    if (i != NUMBER_OF_QUESTIONS - 1) {
-      updateString += ','
+    if (i != numbersOfQuestions - 1) {
+      updateString += ', '
     }
   }
   updateString += ` WHERE HASH='${hash}';`
+  core.debug('UpdateString: ' + updateString)
 
   fs.appendFile(sql_file_name, updateString, function (err) {
     if (err) throw err
@@ -8654,15 +8677,18 @@ const main = async () => {
   try {
     // Get input variables
     // TODO: Evaluate if these variables are needed or not
-    const owner = core.getInput('owner', { required: true })
-    const repo = core.getInput('repo', { required: true })
-    const pr_number = core.getInput('pr_number', { required: true })
-    const token = core.getInput('token', { required: true })
-    const path = core.getInput('template_path', { required: true })
-    const sha = core.getInput('sha', { required: true })
-    const sql_file_name = core.getInput('sql_file_name', { required: true })
+    const OWNER = core.getInput('owner', { required: true })
+    const REPO = core.getInput('repo', { required: true })
+    const PR_NUMBER = core.getInput('pr_number', { required: true })
+    const TOKEN = core.getInput('token', { required: true })
+    const PATH = core.getInput('template_path', { required: true })
+    const SHA = core.getInput('sha', { required: true })
+    const SQL_FILE_NAME = core.getInput('sql_file_name', { required: true })
+    const NUMBER_OF_QUESTIONS = core.getInput('number_of_questions', {
+      required: true,
+    })
 
-    const { startOfTemplate, endOfTemplate, template_file } = readFile(path)
+    const { startOfTemplate, endOfTemplate, template_file } = readFile(PATH)
 
     const question_body = extractBody(
       startOfTemplate,
@@ -8682,7 +8708,7 @@ const main = async () => {
       core.debug('\u001b[38;5;6mAll questions are answered: ')
       core.debug(response)
 
-      createSqlFiles(response, sha, sql_file_name)
+      createSqlFiles(response, SHA, SQL_FILE_NAME, NUMBER_OF_QUESTIONS)
     } else {
       core.debug('\u001b[38;5;6mThere is no checkbox there')
       throw new Error(
