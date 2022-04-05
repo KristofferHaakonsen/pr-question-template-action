@@ -266,6 +266,7 @@ const main = async () => {
 
       core.debug('\u001b[38;5;6mAll questions are answered: ')
       core.debug(response)
+      core.debug('The answers: ', response)
 
       createSqlFiles(
         response,
