@@ -168,3 +168,5 @@ jobs:
           connection-string: AZURE_SQL_CONNECTION_STRING
           sql-file: './insert_db.sql'
 ```
+
+test
