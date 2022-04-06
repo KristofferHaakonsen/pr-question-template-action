@@ -14,8 +14,8 @@ Please answer the questions by inserting a numerical value after the ":" symbol 
 5. ways to access/modify databases:
 6. global variables:
 7. dependencies:
-8. classes/modules
-9. privileges
+8. classes/modules:
+9. privileges:
 10. - [ ] None of the above
 
 
@@ -26,8 +26,8 @@ Please answer the questions by inserting a numerical value after the ":" symbol 
 5. ways to access/modify databases:
 6. global variables:
 7. dependencies:
-8. classes/modules
-9. privileges
+8. classes/modules:
+9. privileges:
 10. - [ ] None of the above
 
 
