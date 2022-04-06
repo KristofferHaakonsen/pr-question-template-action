@@ -8587,7 +8587,7 @@ const extractData = (question_body) => {
   core.debug(lines)
 
   // Only keep the questions
-  const regex = /^\d\..*/
+  const regex = /^\d{1,3}\..*/
   let filtered = lines.filter((line) => line.match(regex))
   core.debug('\u001b[38;5;6mThe question lines:')
   core.debug(filtered)
@@ -8736,6 +8736,7 @@ const main = async () => {
 
       core.debug('\u001b[38;5;6mAll questions are answered: ')
       core.debug(response)
+      core.info('The answers: ', response)
 
       createSqlFiles(
         response,
