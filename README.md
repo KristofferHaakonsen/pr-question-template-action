@@ -168,3 +168,8 @@ jobs:
           connection-string: AZURE_SQL_CONNECTION_STRING
           sql-file: './insert_db.sql'
 ```
+
+
+**Versions**
+- v1: Forces the user to answer all the questions
+- v2: If an answer is unanswered, it is auto-set to 0, and will not fail the workflow
