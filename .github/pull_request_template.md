@@ -4,7 +4,7 @@
 
 <!--Begin questions-->
 ## Questions:
-Please answer the questions by inserting a numerical value (a number) after the ":" symbol, the "\#" means number of. If the answer to a question is “no” or "zero", answer with 0. You can also check the "None of the above"-option if the answer to all the questions are "no" or "zero".
+Please answer the questions by inserting a numerical value (0-999) after the ":" symbol, the "\#" means number of. If the answer to a question is “no” or "zero", answer with 0. You can also check the "None of the above"-option if the answer to all the questions are "no" or "zero".
 
  
 **I have created/added/modified/opened/granted:**
