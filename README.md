@@ -113,9 +113,9 @@ jobs:
           template_path: '.github/pull_request_template.md'
           sha: ${{ github.sha }}
           sql_table_name: DB_TABLE_NAME
-          sql_file_name_create_db: 'create_db.sql'
-          sql_file_name_update_db: 'update_db.sql'
-          sql_file_name_insert_db: 'insert_db.sql'
+          sql_file_name_create: 'create_db.sql'
+          sql_file_name_update: 'update_db.sql'
+          sql_file_name_insert: 'insert_db.sql'
           number_of_fields_db: 20
 
 ```
@@ -142,9 +142,9 @@ jobs:
           template_path: '.github/pull_request_template.md'
           sha: ${{ github.sha }}
           sql_table_name: DB_TABLE_NAME
-          sql_file_name_create_db: 'create_db.sql'
-          sql_file_name_update_db: 'update_db.sql'
-          sql_file_name_insert_db: 'insert_db.sql'
+          sql_file_name_create: 'create_db.sql'
+          sql_file_name_update: 'update_db.sql'
+          sql_file_name_insert: 'insert_db.sql'
           number_of_fields_db: 20
 
       - name: Create db
