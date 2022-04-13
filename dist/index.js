@@ -8602,8 +8602,6 @@ const extractData = (question_body) => {
   let number_regex = /\d{1,3}/
   const none_of_the_above = 'None of the above'
   const checked_checkbox = '[x]'
-  let all_answers_answered = true
-  let unanswered_question = false
   let question_group_end_indices = []
 
   let line_answer
@@ -8616,29 +8614,20 @@ const extractData = (question_body) => {
       if (line_answer) {
         answers.push(parseInt(line_answer[0]))
       } else {
-        // No answer
-        unanswered_question = true
-        // Insert empty, as we dont want to ruin the index
-        answers.push('')
+        // If no answer, answer with 0
+        answers.push(0)
       }
     } else {
       // If None of the above, check if checked
       question_group_end_indices.push(index)
       answers.push('checkmark')
       if (line.match(checked_checkbox)) {
-        // If checked, its fine
-        unanswered_question = false
         for (
           let i = index - 1;
           i >= 0 && !question_group_end_indices.includes(i);
           i--
         ) {
           answers[i] = 0
-        }
-      } else {
-        // Failed
-        if (unanswered_question) {
-          all_answers_answered = false
         }
       }
     }
@@ -8649,12 +8638,7 @@ const extractData = (question_body) => {
     answers.splice(item, 1)
   })
 
-  if (all_answers_answered) {
-    return answers
-  } else {
-    core.debug('\u001b[38;5;6mThere are unanswered questions')
-    throw new Error('You need to answer all the questions')
-  }
+  return answers
 }
 
 const extractBody = (startOfTemplate, endOfTemplate, template_file) => {
