@@ -20,19 +20,19 @@ This action requires 6 inputs:
 
 The action has no outputs, but during runtime, it creates 3 sql files, which can be used to perform sql commands.
 
-1. **sql_file_name_create_db**: Creating a table on the format:
+1. **sql_file_name_create**: Creating a table on the format:
 
 ```sql
 CREATE TABLE sql_table_name ( HASH varchar(40) NOT NULL, QUESTION_1 int, QUESTION_2 int, .... created_at DATETIME DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (HASH));
 ```
 
-2. **sql_file_name_update_db**: Updates a table on the format:
+2. **sql_file_name_update**: Updates a table on the format:
 
 ```sql
 UPDATE sql_table_name SET QUESTION_1=33, QUESTION_2=2, QUESTION_3=3, ... WHERE HASH='hsdughsdhgoshdghsdihgisdg';
 ```
 
-3. **sql_file_name_insert_db**: Inserts a row in a table on the format:
+3. **sql_file_name_insert**: Inserts a row in a table on the format:
 
 ```sql
 INSERT INTO sql_table_name (HASH, QUESTION_1, QUESTION_2,...) VALUES ( 'hsdughsdhgoshdghsdihgisdg', 33, 2, ...);
