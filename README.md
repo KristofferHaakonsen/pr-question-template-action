@@ -11,9 +11,9 @@ This action requires 6 inputs:
 1. **template_path**: The path to the template file. This file will have to be located under .github, to be auto-used when creating PRs.
 2. **sha**: The commit SHA for this PR
 3. **sql_table_name**: The name of the sql table
-4. **sql_file_name_create_db**: The name of the sql file, which will contain the code to create the required table
-5. **sql_file_name_update_db**: The name of the sql file, which will contain the code to update a row in the table
-6. **sql_file_name_insert_db**: The name of the sql file, which will contain the code to insert a row in the table
+4. **sql_file_name_create**: The name of the sql file, which will contain the code to create the required table
+5. **sql_file_name_update**: The name of the sql file, which will contain the code to update a row in the table
+6. **sql_file_name_insert**: The name of the sql file, which will contain the code to insert a row in the table
 7. **number_of_fields_db**: The number of fields in the database
 
 ### Outputs
